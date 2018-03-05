@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:Strobify.ViewModel"
-        DataContext="{DynamicResource MainViewModel}"
+        DataContext="{DynamicResource GameControllerViewModel}"
         Title="MainWindow" Height="350" Width="525">    
     <Window.Resources>
-        <vm:MainViewModel x:Key="MainViewModel"/>        
+        <vm:GameControllerViewModel x:Key="GameControllerViewModel"/>
     </Window.Resources>
     <Grid>
-        <Button Content="{DynamicResource MainViewModel}" HorizontalAlignment="Left" Margin="10,289,0,0" VerticalAlignment="Top" Width="100" Command="{Binding Mode=OneWay}"/>
+        <Button Content="{Binding GameControllerContent}" HorizontalAlignment="Left" Margin="10,289,0,0" VerticalAlignment="Top" Width="199" Command="{Binding GetGameControllers}"/>
     </Grid>
 </Window>

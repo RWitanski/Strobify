@@ -1,4 +1,6 @@
 using GalaSoft.MvvmLight;
+using System.Collections.ObjectModel;
+using Strobify.Model;
 using Strobify.Helpers;
 
 namespace Strobify.ViewModel
@@ -21,6 +23,7 @@ namespace Strobify.ViewModel
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         ///
+
         public MainViewModel()
         {
             ////if (IsInDesignMode)
