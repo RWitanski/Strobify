@@ -42,7 +42,6 @@ namespace Strobify.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<GameControllerViewModel>();
         }
 
         public MainViewModel Main

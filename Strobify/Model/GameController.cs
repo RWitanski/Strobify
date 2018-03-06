@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Strobify.Model
 {
-    class GameController : INotifyPropertyChanged
+    public class GameController : INotifyPropertyChanged
     {
         string _name;
         public string Name
