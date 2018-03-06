@@ -19,11 +19,7 @@ namespace Strobify.ViewModel
             }
             set
             {
-                if (_selectedDevice != value)
-                {
-                    _selectedDevice = value;
-                    RaisePropertyChanged("SelectedDevice");
-                }
+                Set(ref _selectedDevice, value);
             }
         }
 

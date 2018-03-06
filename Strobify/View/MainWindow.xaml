@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:Strobify.ViewModel"
-        DataContext="{DynamicResource MainViewModel}"
-        Title="MainWindow" Height="350" Width="525">    
+        DataContext="{DynamicResource GameControllerVM}"
+        Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
-        <vm:GameControllerViewModel x:Key="MainViewModel"/>
+        <vm:GameControllerViewModel x:Key="GameControllerVM"/>
     </Window.Resources>
     <Grid>
-        <Button Content="{Binding DevicesContent}" HorizontalAlignment="Left" Margin="10,289,0,0" VerticalAlignment="Top" Width="199" Command="{Binding GetDevices}"/>
-        <ComboBox ItemsSource="{Binding GameControllers}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDevice}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="497"/>
+        <Button Content="{Binding DevicesContent}" HorizontalAlignment="Left" Margin="398,10,0,0" VerticalAlignment="Top" Width="109" Command="{Binding GetDevices}" Height="22"/>
+        <ComboBox ItemsSource="{Binding GameControllers}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDevice}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="383"/>
     </Grid>
 </Window>
