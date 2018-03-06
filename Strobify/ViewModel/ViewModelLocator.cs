@@ -13,6 +13,7 @@
 */
 
 using CommonServiceLocator;
+using Strobify.Model;
 using GalaSoft.MvvmLight.Ioc;
 
 namespace Strobify.ViewModel
@@ -41,14 +42,14 @@ namespace Strobify.ViewModel
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
-            SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<GameControllerViewModel>();
         }
 
-        public MainViewModel Main
+        public GameControllerViewModel Main
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
+                return ServiceLocator.Current.GetInstance<GameControllerViewModel>();
             }
         }
         

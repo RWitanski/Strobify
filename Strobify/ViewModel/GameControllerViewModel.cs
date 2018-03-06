@@ -2,10 +2,11 @@
 using Strobify.Model;
 using Strobify.Helpers;
 using System.Collections.ObjectModel;
+using GalaSoft.MvvmLight;
 
 namespace Strobify.ViewModel
 {
-    class GameControllerViewModel : MainViewModel
+    public class GameControllerViewModel : ViewModelBase
     {
         public ObservableCollection<GameController> GameControllers { get; set; }
 

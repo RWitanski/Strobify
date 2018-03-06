@@ -78,7 +78,6 @@
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Model\GameController.cs" />
     <Compile Include="ViewModel\GameControllerViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
