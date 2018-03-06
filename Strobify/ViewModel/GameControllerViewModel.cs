@@ -23,7 +23,7 @@ namespace Strobify.ViewModel
             }
         }
 
-        public RelayCommand GetDevices { get; set; }
+        public RelayCommand GetDevicesCommand { get; set; }
 
         public string DevicesContent
         {

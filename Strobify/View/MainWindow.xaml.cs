@@ -1,5 +1,6 @@
 ﻿using System.Windows;
-namespace Strobify.ViewModel
+
+namespace Strobify.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

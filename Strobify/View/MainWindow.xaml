@@ -1,4 +1,4 @@
-﻿<Window x:Class="Strobify.ViewModel.MainWindow"
+﻿<Window x:Class="Strobify.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,7 +11,7 @@
         <vm:GameControllerViewModel x:Key="GameControllerVM"/>
     </Window.Resources>
     <Grid>
-        <Button Content="{Binding DevicesContent}" HorizontalAlignment="Left" Margin="398,10,0,0" VerticalAlignment="Top" Width="109" Command="{Binding GetDevices}" Height="22"/>
+        <Button Content="{Binding DevicesContent}" HorizontalAlignment="Left" Margin="398,10,0,0" VerticalAlignment="Top" Width="109" Command="{Binding GetDevicesCommand}" Height="22"/>
         <ComboBox ItemsSource="{Binding GameControllers}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDevice}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="383"/>
     </Grid>
 </Window>
