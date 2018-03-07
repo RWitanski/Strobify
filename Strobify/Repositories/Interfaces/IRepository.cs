@@ -1,4 +1,4 @@
-﻿namespace Strobify.Repositories
+﻿namespace Strobify.Repositories.Interfaces
 {
     public interface IRepository<TEntity, in TKey> where TEntity : class
     {

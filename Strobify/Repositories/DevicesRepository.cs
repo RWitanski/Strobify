@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using Strobify.Model;
+using Strobify.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Windows.Media.Converters;
-using Strobify.Model;
 
 namespace Strobify.Repositories
 {

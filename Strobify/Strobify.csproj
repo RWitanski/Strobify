@@ -78,8 +78,8 @@
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Model\GameController.cs" />
     <Compile Include="Repositories\DevicesRepository.cs" />
-    <Compile Include="Repositories\IDeviceRepository.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IDeviceRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="ViewModel\GameControllerViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="View\MainWindow.xaml">

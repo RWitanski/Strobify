@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Strobify.Model;
 
-namespace Strobify.Repositories
+namespace Strobify.Repositories.Interfaces
 {
     public interface IDeviceRepository :IRepository<GameController, string>
     {

@@ -1,7 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Ioc;
 using Strobify.Helpers;
 using Strobify.Model;
-using Strobify.Repositories;
+using Strobify.Repositories.Interfaces;
 using System.Collections.ObjectModel;
 
 namespace Strobify.ViewModel
@@ -36,7 +37,8 @@ namespace Strobify.ViewModel
 
         private void InitGameControllerList()
         {
-            DeviceRepository deviceRepository = new DeviceRepository();
+            GameControllers.Clear();
+            IDeviceRepository deviceRepository = SimpleIoc.Default.GetInstance<IDeviceRepository>();
             foreach (var device in deviceRepository.GetControllers())
             {
                 GameControllers.Add(device);

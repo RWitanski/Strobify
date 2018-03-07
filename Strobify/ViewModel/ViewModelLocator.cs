@@ -16,6 +16,7 @@ using CommonServiceLocator;
 using Strobify.Model;
 using GalaSoft.MvvmLight.Ioc;
 using Strobify.Repositories;
+using Strobify.Repositories.Interfaces;
 
 namespace Strobify.ViewModel
 {
