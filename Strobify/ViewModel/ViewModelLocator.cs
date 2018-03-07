@@ -15,6 +15,7 @@
 using CommonServiceLocator;
 using Strobify.Model;
 using GalaSoft.MvvmLight.Ioc;
+using Strobify.Repositories;
 
 namespace Strobify.ViewModel
 {
@@ -41,6 +42,8 @@ namespace Strobify.ViewModel
             ////    // Create run time view services and models
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
+
+            SimpleIoc.Default.Register<IDeviceRepository, DeviceRepository>();
 
             SimpleIoc.Default.Register<GameControllerViewModel>();
         }

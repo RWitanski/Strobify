@@ -77,6 +77,9 @@
     </ApplicationDefinition>
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Model\GameController.cs" />
+    <Compile Include="Repositories\DevicesRepository.cs" />
+    <Compile Include="Repositories\IDeviceRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="ViewModel\GameControllerViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="View\MainWindow.xaml">
@@ -119,6 +122,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

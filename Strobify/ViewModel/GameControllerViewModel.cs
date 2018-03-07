@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using Strobify.Helpers;
 using Strobify.Model;
-using System;
+using Strobify.Repositories;
 using System.Collections.ObjectModel;
 
 namespace Strobify.ViewModel
@@ -25,13 +25,7 @@ namespace Strobify.ViewModel
 
         public RelayCommand GetDevicesCommand { get; set; }
 
-        public string DevicesContent
-        {
-            get
-            {
-                return "Get devices";
-            }
-        }
+        public string DevicesContent => "Get devices";
 
         public void InitCommands()
         {
@@ -42,8 +36,11 @@ namespace Strobify.ViewModel
 
         private void InitGameControllerList()
         {
-            GameControllers.Clear();
-            GameControllers.Add(new GameController { Name = "Kierownica", DeviceGuid = new Guid("13757675-0365-49DD-972D-D5954E7E7FD3") });
+            DeviceRepository deviceRepository = new DeviceRepository();
+            foreach (var device in deviceRepository.GetControllers())
+            {
+                GameControllers.Add(device);
+            }
         }
 
         public GameControllerViewModel()
