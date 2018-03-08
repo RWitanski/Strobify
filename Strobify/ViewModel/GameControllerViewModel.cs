@@ -1,9 +1,9 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
-using Strobify.Helpers;
-namespace Strobify.ViewModel
-{
+﻿namespace Strobify.ViewModel
+{   
     using Strobify.Model;
+    using Strobify.Helpers;
+    using GalaSoft.MvvmLight;
+    using GalaSoft.MvvmLight.Ioc;
     using Strobify.Services.Interfaces;
     using System.Collections.ObjectModel;
 
