@@ -1,11 +1,10 @@
-﻿using System.Windows;
-
-namespace Strobify.View
+﻿namespace Strobify.View
 {
+    using MahApps.Metro.Controls;
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {

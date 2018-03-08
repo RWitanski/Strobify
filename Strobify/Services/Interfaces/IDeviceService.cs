@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Strobify.Model;
+﻿namespace Strobify.Services.Interfaces
+{    
+    using Strobify.Model;
+    using System.Collections.Generic;
 
-namespace Strobify.Services.Interfaces
-{
     public interface IDeviceService
     {
         IEnumerable<GameController> GetDevices();

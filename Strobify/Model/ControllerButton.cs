@@ -1,6 +1,7 @@
 ﻿namespace Strobify.Model
 {
     using WindowsInput.Native;
+
     public class ControllerButton
     {
         public int DeviceButtonId { get; set; }

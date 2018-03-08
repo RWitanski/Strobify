@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Strobify.Model;
-
-namespace Strobify.Repositories.Interfaces
+﻿namespace Strobify.Repositories.Interfaces
 {
-    public interface IDeviceRepository : IRepository<GameController, string>
+    using Strobify.Model;
+    using System.Collections.Generic;
+
+    public interface IDeviceRepository
     {
-        IEnumerable<GameController> GetControllers();
-        //IEnumerable<GameController> Find(string text);
+        IEnumerable<GameController> GetDevices();
     }
 }

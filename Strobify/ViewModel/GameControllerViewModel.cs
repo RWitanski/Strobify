@@ -1,19 +1,19 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Strobify.Helpers;
-using Strobify.Model;
-using Strobify.Repositories.Interfaces;
-using System.Collections.ObjectModel;
-
 namespace Strobify.ViewModel
 {
+    using Strobify.Model;
+    using Strobify.Services.Interfaces;
+    using System.Collections.ObjectModel;
+
     public class GameControllerViewModel : ViewModelBase
     {
         public ObservableCollection<GameController> GameControllers { get; set; } = new ObservableCollection<GameController>();
-        readonly IDeviceRepository _deviceRepository = SimpleIoc.Default.GetInstance<IDeviceRepository>();
+        private readonly IDeviceService _deviceService = SimpleIoc.Default.GetInstance<IDeviceService>();
 
-        object _selectedDevice;
-        public object SelectedDevice
+        GameController _selectedDevice;
+        public GameController SelectedDevice
         {
             get
             {
@@ -27,8 +27,6 @@ namespace Strobify.ViewModel
 
         public RelayCommand GetDevicesCommand { get; set; }
 
-        public string DevicesContent => "Get devices";
-
         public void InitCommands()
         {
             this.GetDevicesCommand = new RelayCommand((parameter) =>
@@ -40,7 +38,7 @@ namespace Strobify.ViewModel
         {
             GameControllers.Clear();
             
-            foreach (var device in _deviceRepository.GetControllers())
+            foreach (var device in _deviceService.GetDevices())
             {
                 GameControllers.Add(device);
             }
