@@ -80,6 +80,8 @@
     <Compile Include="Repositories\DevicesRepository.cs" />
     <Compile Include="Repositories\Interfaces\IDeviceRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
+    <Compile Include="Services\DeviceService.cs" />
+    <Compile Include="Services\Interfaces\IDeviceService.cs" />
     <Compile Include="ViewModel\GameControllerViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="View\MainWindow.xaml">
@@ -122,8 +124,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

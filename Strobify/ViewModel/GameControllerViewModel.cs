@@ -10,6 +10,7 @@ namespace Strobify.ViewModel
     public class GameControllerViewModel : ViewModelBase
     {
         public ObservableCollection<GameController> GameControllers { get; set; } = new ObservableCollection<GameController>();
+        readonly IDeviceRepository _deviceRepository = SimpleIoc.Default.GetInstance<IDeviceRepository>();
 
         object _selectedDevice;
         public object SelectedDevice
@@ -38,8 +39,8 @@ namespace Strobify.ViewModel
         private void InitGameControllerList()
         {
             GameControllers.Clear();
-            IDeviceRepository deviceRepository = SimpleIoc.Default.GetInstance<IDeviceRepository>();
-            foreach (var device in deviceRepository.GetControllers())
+            
+            foreach (var device in _deviceRepository.GetControllers())
             {
                 GameControllers.Add(device);
             }
