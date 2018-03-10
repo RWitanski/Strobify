@@ -18,6 +18,8 @@ using Strobify.Repositories;
 using Strobify.Repositories.Interfaces;
 using Strobify.Services;
 using Strobify.Services.Interfaces;
+using Strobify.Strategies;
+using Strobify.Strategies.Interfaces;
 
 namespace Strobify.ViewModel
 {
@@ -47,6 +49,9 @@ namespace Strobify.ViewModel
 
             SimpleIoc.Default.Register<IDeviceRepository, DeviceRepository>();
             SimpleIoc.Default.Register<IDeviceService, DeviceService>();
+            SimpleIoc.Default.Register<IButtonMapperStrategy, ButtonMapperStrategy>();
+            SimpleIoc.Default.Register<IControllerButtonMapper, ControllerButtonMapper>();
+            SimpleIoc.Default.Register<IKeyboardButtonMapper, KeyboardButtonMapper>();
 
             SimpleIoc.Default.Register<GameControllerViewModel>();
         }

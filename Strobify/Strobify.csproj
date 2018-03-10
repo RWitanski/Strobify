@@ -89,6 +89,12 @@
     <Compile Include="Repositories\Interfaces\IDeviceRepository.cs" />
     <Compile Include="Services\DeviceService.cs" />
     <Compile Include="Services\Interfaces\IDeviceService.cs" />
+    <Compile Include="Strategies\ButtonMapperStrategy.cs" />
+    <Compile Include="Strategies\ControllerButtonMapper.cs" />
+    <Compile Include="Strategies\Interfaces\IButtonMapperStrategy.cs" />
+    <Compile Include="Strategies\Interfaces\IControllerButtonMapper.cs" />
+    <Compile Include="Strategies\Interfaces\IKeyboardButtonMapper.cs" />
+    <Compile Include="Strategies\KeyboardButtonMapper.cs" />
     <Compile Include="ViewModel\GameControllerViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="View\MainWindow.xaml">

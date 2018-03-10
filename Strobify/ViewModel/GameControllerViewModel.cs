@@ -41,7 +41,7 @@
                 { InitGameControllerList(); }
             );
             this.GetButtonIdCommand = new RelayCommand((parameter) =>
-                { InitButtonAssign(); }, (parameter) => true // add switch to true if there is a selected Item to avoid exception.
+                { InitButtonAssign(); }, (paramater) =>  true  // add switch to true if there is a selected Item to avoid exception.
             );
         }
 
