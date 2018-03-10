@@ -15,7 +15,8 @@
 
         protected Joystick Joystick { get; private set; }
         protected GameController GameController { get; private set; }
-        
+        public int ControllerButtonId => GameController.ControllerButton.DeviceButtonId;
+
         public IEnumerable<GameController> GetDevices()
         {
             return _deviceRepo.GetDevices();
@@ -54,11 +55,6 @@
                 }
                 buttonId++;
             }
-        }
-
-        public int GetControllerButtonId()
-        {
-            return GameController.ControllerButton.DeviceButtonId;
-        }
+        }        
     }
 }
