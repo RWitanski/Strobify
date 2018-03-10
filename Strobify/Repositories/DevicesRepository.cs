@@ -11,7 +11,7 @@
         {
             IList<GameController> availableDevicesList = new List<GameController>();
             DirectInput dinput = new DirectInput();
-            foreach (DeviceInstance di in dinput.GetDevices(DeviceClass.All, DeviceEnumerationFlags.AttachedOnly))
+            foreach (DeviceInstance di in dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly))
             {
                 GameController dev = new GameController
                 {

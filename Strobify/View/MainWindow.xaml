@@ -8,9 +8,12 @@
         xmlns:vm="clr-namespace:Strobify.ViewModel"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         Title="Strobify" Height="350" Width="525">
-   
+
     <Grid>
-        <Button Content="Get devices" HorizontalAlignment="Left" Margin="398,10,0,0" VerticalAlignment="Top" Width="109" Command="{Binding GetDevicesCommand}" Height="22"/>
         <ComboBox ItemsSource="{Binding GameControllers}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDevice}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="383"/>
+        <Button Content="Get devices" Command="{Binding GetDevicesCommand}" HorizontalAlignment="Left" Margin="398,10,0,0" VerticalAlignment="Top" Width="109"  Height="22"/>
+        <Button Content="Assign Button" Command="{Binding GetButtonIdCommand}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="119"/>
+        <Label Content="Assigned Controller Button: " HorizontalAlignment="Left" Margin="134,42,0,0" VerticalAlignment="Top" Width="170"/>
+        <Label Content="{Binding AssignedControllerButtonText}" HorizontalAlignment="Left" Margin="309,42,0,0" VerticalAlignment="Top" Width="84" FontWeight="Bold"/>
     </Grid>
 </controls:MetroWindow>

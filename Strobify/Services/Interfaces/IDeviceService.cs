@@ -6,5 +6,7 @@
     public interface IDeviceService
     {
         IEnumerable<GameController> GetDevices();
+        void AssignControllerButtonId(GameController gameController);
+        int GetControllerButtonId();
     }
 }

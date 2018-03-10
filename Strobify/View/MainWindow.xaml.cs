@@ -10,7 +10,7 @@
     {
         public MainWindow()
         {
-            InitializeComponent();   
+            InitializeComponent();                  
         }
     }
 }

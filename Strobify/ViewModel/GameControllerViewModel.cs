@@ -12,7 +12,7 @@
         public ObservableCollection<GameController> GameControllers { get; set; } = new ObservableCollection<GameController>();
         private readonly IDeviceService _deviceService = SimpleIoc.Default.GetInstance<IDeviceService>();
 
-        GameController _selectedDevice;
+        private GameController _selectedDevice;
         public GameController SelectedDevice
         {
             get
@@ -25,12 +25,23 @@
             }
         }
 
+        private string _assignedControllerButtonText;
+        public string AssignedControllerButtonText
+        {
+            get { return _assignedControllerButtonText; }
+            set { Set(ref _assignedControllerButtonText, value); }
+        }
+
         public RelayCommand GetDevicesCommand { get; set; }
+        public RelayCommand GetButtonIdCommand { get; set; }
 
         public void InitCommands()
         {
             this.GetDevicesCommand = new RelayCommand((parameter) =>
                 { InitGameControllerList(); }
+            );
+            this.GetButtonIdCommand = new RelayCommand((parameter) =>
+                { InitButtonAssign(); }, (parameter) => true // add switch to true if there is a selected Item to avoid exception.
             );
         }
 
@@ -42,6 +53,11 @@
             {
                 GameControllers.Add(device);
             }
+        }
+        private void InitButtonAssign()
+        {
+            _deviceService.AssignControllerButtonId(_selectedDevice);
+            AssignedControllerButtonText = _deviceService.GetControllerButtonId().ToString();
         }
 
         public GameControllerViewModel()
