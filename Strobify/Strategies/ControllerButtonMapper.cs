@@ -12,7 +12,7 @@
         protected GameController GameController { get; private set; }
         public int ControllerButtonId => GameController.ControllerButton.DeviceButtonId;
 
-        public IButtonMapperStrategy ButtonMapperStrategy { get; set; }
+
 
         public void AssignControllerButtonId(GameController gameController)
         {

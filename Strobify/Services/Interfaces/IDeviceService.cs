@@ -7,6 +7,6 @@
     {
         IEnumerable<GameController> GetDevices();
         void AssignControllerButtonId(GameController gameController);
-        int ControllerButtonId { get; }
+        GameController GameController { get; }
     }
 }

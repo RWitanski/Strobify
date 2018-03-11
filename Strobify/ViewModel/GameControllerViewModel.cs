@@ -57,7 +57,7 @@
         private void InitButtonAssign()
         {
             _deviceService.AssignControllerButtonId(_selectedDevice);
-            AssignedControllerButtonText = _deviceService.ControllerButtonId.ToString();
+            AssignedControllerButtonText = _deviceService.GameController.ControllerButton.DeviceButtonId.ToString();
         }
 
         public GameControllerViewModel()
