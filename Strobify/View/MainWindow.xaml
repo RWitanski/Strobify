@@ -25,8 +25,7 @@
         <Label Content="Repeats" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="84"/>
         <controls:NumericUpDown Value="{Binding Repeats}" Minimum="2" Maximum="24" Interval="2" StringFormat="N0" Margin="99,108,124,37" />
         <Button Content="Start" HorizontalAlignment="Left" Margin="398,145,0,0" VerticalAlignment="Top" Width="109"/>
-        <!-- PreviewTextInput="StringValidation"-->
-        <TextBox Text="{Binding AssignedKeyboardButtonText, Converter={StaticResource stringConverter}}" PreviewTextInput="StringValidation" HorizontalAlignment="Left" Height="23" Margin="273,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" MaxLines="1" MaxLength="1"/>
-
+        <!-- , Converter={StaticResource stringConverter} -->
+        <TextBox x:Name="KeyboardButtonTxtBox" Text="{Binding AssignedKeyboardButtonText}" PreviewTextInput="StringValidation" HorizontalAlignment="Left" Height="23" Margin="273,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" MaxLines="1" MaxLength="1"/>
     </Grid>
 </controls:MetroWindow>
