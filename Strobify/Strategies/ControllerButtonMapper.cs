@@ -10,30 +10,35 @@
     {
         protected Joystick Joystick { get; private set; }
         protected GameController GameController { get; private set; }
-        public int ControllerButtonId => GameController.ControllerButton.DeviceButtonId;
-
-
 
         public void AssignControllerButtonId(GameController gameController)
         {
             GameController = gameController;
-            DirectInput directInput = new DirectInput();
-            Joystick = new Joystick(directInput, gameController.DeviceGuid);
+            var directInput = new DirectInput();
+            try
+            {
+                Joystick = new Joystick(directInput, gameController.DeviceGuid);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            
             Joystick.Properties.BufferSize = 128;
             Joystick.Acquire();
 
             StartTimer();
         }
-        private DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
         private void StartTimer()
         {
-            dispatcherTimer.Tick += dispatcherTimer_Tick;
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 50);
-            dispatcherTimer.Start();
+            _dispatcherTimer.Tick += DispatcherTimer_Tick;
+            _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            _dispatcherTimer.Start();
         }
 
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
             Joystick.Poll();
             JoystickState currState = Joystick.GetCurrentState();
@@ -43,7 +48,7 @@
                 if (buttonState)
                 {
                     GameController.ControllerButton.DeviceButtonId = buttonId;
-                    dispatcherTimer.Stop();
+                    _dispatcherTimer.Stop();
                 }
                 buttonId++;
             }

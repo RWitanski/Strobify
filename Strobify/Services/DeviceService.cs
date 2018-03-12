@@ -12,6 +12,12 @@
         private readonly IDeviceRepository _deviceRepo = SimpleIoc.Default.GetInstance<IDeviceRepository>();
         private readonly IButtonMapperStrategy _buttonMapperStrategy = SimpleIoc.Default.GetInstance<IButtonMapperStrategy>();
 
+        public DeviceService(IDeviceRepository deviceRepo, IButtonMapperStrategy buttonMapperStrategy)
+        {
+            this._deviceRepo = deviceRepo;
+            this._buttonMapperStrategy = buttonMapperStrategy;
+        }
+
         public GameController GameController { get; private set; }
 
         public void AssignControllerButtonId(GameController gameController)
@@ -23,6 +29,6 @@
         public IEnumerable<GameController> GetDevices()
         {
             return _deviceRepo.GetDevices();
-        }              
+        }
     }
 }

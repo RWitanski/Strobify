@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Model\ControllerButton.cs" />
     <Compile Include="Model\GameController.cs" />

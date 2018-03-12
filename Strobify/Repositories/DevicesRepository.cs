@@ -10,10 +10,11 @@
         public IEnumerable<GameController> GetDevices()
         {
             IList<GameController> availableDevicesList = new List<GameController>();
-            DirectInput dinput = new DirectInput();
+            var dinput = new DirectInput();
             foreach (DeviceInstance di in dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly))
             {
-                GameController dev = new GameController
+                var controllerButton = new ControllerButton();
+                var dev = new GameController(controllerButton)
                 {
                     DeviceGuid = di.InstanceGuid,
                     Name = di.InstanceName

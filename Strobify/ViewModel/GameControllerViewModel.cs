@@ -1,9 +1,9 @@
 ﻿namespace Strobify.ViewModel
-{   
-    using Strobify.Model;
-    using Strobify.Helpers;
+{
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Ioc;
+    using Strobify.Helpers;
+    using Strobify.Model;
     using Strobify.Services.Interfaces;
     using System.Collections.ObjectModel;
 
@@ -11,6 +11,12 @@
     {
         public ObservableCollection<GameController> GameControllers { get; set; } = new ObservableCollection<GameController>();
         private readonly IDeviceService _deviceService = SimpleIoc.Default.GetInstance<IDeviceService>();
+
+        public GameControllerViewModel(IDeviceService deviceService)
+        {
+            this._deviceService = deviceService;
+            InitCommands();
+        }
 
         private GameController _selectedDevice;
         public GameController SelectedDevice
@@ -25,22 +31,38 @@
             }
         }
 
-        private string _assignedControllerButtonText;
+        private string _assignedControllerButtonText = "7";
         public string AssignedControllerButtonText
         {
             get { return _assignedControllerButtonText; }
             set { Set(ref _assignedControllerButtonText, value); }
         }
-        private string _assignedKeyboardButtonText;
+        private string _assignedKeyboardButtonText = "L";
         public string AssignedKeyboardButtonText
         {
             get { return _assignedKeyboardButtonText; }
-            set { Set(ref _assignedKeyboardButtonText, value); }
+            set
+            {
+                Set(ref _assignedKeyboardButtonText, value);
+            }
+        }
+        private short _delay = 150;
+        public short Delay
+        {
+            get { return _delay; }
+            set { Set(ref _delay, value); }
         }
 
-        public RelayCommand GetDevicesCommand { get; set; }
-        public RelayCommand GetButtonIdCommand { get; set; }
-        public RelayCommand GetKeyboardButtonCommand { get; set; }
+        private short _repeats = 12;
+        public short Repeats
+        {
+            get { return _repeats; }
+            set { Set(ref _repeats, value); }
+        }
+
+        public RelayCommand GetDevicesCommand { get; private set; }
+        public RelayCommand GetButtonIdCommand { get; private set; }
+        public RelayCommand GetKeyboardButtonCommand { get; private set; }
 
         public void InitCommands()
         {
@@ -69,14 +91,9 @@
             _deviceService.AssignControllerButtonId(_selectedDevice);
             AssignedControllerButtonText = _deviceService.GameController.ControllerButton.DeviceButtonId.ToString();
         }
-        private void InitKeyboardButtonAssing()
+        private void InitKeyboardButtonAssign()
         {
 
-        }
-
-        public GameControllerViewModel()
-        {
-            InitCommands();
         }
     }
 }

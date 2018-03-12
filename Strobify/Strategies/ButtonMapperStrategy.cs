@@ -1,7 +1,6 @@
 ﻿namespace Strobify.Strategies
-{    
+{
     using Interfaces;
-    using GalaSoft.MvvmLight.Ioc;
 
     public class ButtonMapperStrategy : IButtonMapperStrategy
     {
