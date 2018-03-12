@@ -5,15 +5,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         mc:Ignorable="d"
-        xmlns:vm="clr-namespace:Strobify.ViewModel"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-        Title="Strobify" Height="350" Width="525">
+        Title="Strobify" Height="220" Width="525">
 
-    <Grid>
+    <Grid HorizontalAlignment="Left" Width="517" Margin="0,0,0,16">
         <ComboBox ItemsSource="{Binding GameControllers}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDevice}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="383"/>
         <Button Content="Get devices" Command="{Binding GetDevicesCommand}" HorizontalAlignment="Left" Margin="398,10,0,0" VerticalAlignment="Top" Width="109"  Height="22"/>
-        <Button Content="Assign Button" Command="{Binding GetButtonIdCommand}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="119"/>
-        <Label Content="Assigned Controller Button: " HorizontalAlignment="Left" Margin="134,42,0,0" VerticalAlignment="Top" Width="170"/>
-        <Label Content="{Binding AssignedControllerButtonText}" HorizontalAlignment="Left" Margin="309,42,0,0" VerticalAlignment="Top" Width="84" FontWeight="Bold"/>
+
+        <Button Content="Assing Button" Command="{Binding GetButtonIdCommand}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="106"/>
+        <!--<Label Content="Controller Button: " HorizontalAlignment="Left" Margin="99,42,0,0" VerticalAlignment="Top" Width="170"/> -->
+        <Label Content="{Binding AssignedControllerButtonText}" HorizontalAlignment="Left" Margin="121,42,0,0" VerticalAlignment="Top" Width="50" FontWeight="Bold"/>
+
+        <Label Content="Delay (ms)" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="84"/>
+        <controls:NumericUpDown Value="150" Minimum="100" Maximum="500" Interval="1" StringFormat="N0" Margin="99,73,124,72" />
+        <Label Content="Repeats" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="84"/>
+        <controls:NumericUpDown Value="12" Minimum="2" Maximum="24" Interval="2" StringFormat="N0" Margin="99,108,124,37" />
+        <Button Content="Start" HorizontalAlignment="Left" Margin="398,145,0,0" VerticalAlignment="Top" Width="109"/>
+        
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="273,42,0,0" TextWrapping="Wrap" Text="{Binding AssignedKeyboardButtonText}" VerticalAlignment="Top" Width="120" MaxLines="1" MaxLength="1"/>
+
     </Grid>
 </controls:MetroWindow>

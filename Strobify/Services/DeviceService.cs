@@ -1,12 +1,11 @@
 ﻿namespace Strobify.Services
 {
-    using Strobify.Model;
     using GalaSoft.MvvmLight.Ioc;
-    using System.Collections.Generic;
-    using Strobify.Services.Interfaces;
+    using Strobify.Model;
     using Strobify.Repositories.Interfaces;
-    using Strobify.Strategies;
+    using Strobify.Services.Interfaces;
     using Strobify.Strategies.Interfaces;
+    using System.Collections.Generic;
 
     public class DeviceService : IDeviceService
     {

@@ -31,9 +31,16 @@
             get { return _assignedControllerButtonText; }
             set { Set(ref _assignedControllerButtonText, value); }
         }
+        private string _assignedKeyboardButtonText;
+        public string AssignedKeyboardButtonText
+        {
+            get { return _assignedKeyboardButtonText; }
+            set { Set(ref _assignedKeyboardButtonText, value); }
+        }
 
         public RelayCommand GetDevicesCommand { get; set; }
         public RelayCommand GetButtonIdCommand { get; set; }
+        public RelayCommand GetKeyboardButtonCommand { get; set; }
 
         public void InitCommands()
         {
@@ -41,7 +48,10 @@
                 { InitGameControllerList(); }
             );
             this.GetButtonIdCommand = new RelayCommand((parameter) =>
-                { InitButtonAssign(); }, (paramater) =>  true  // add switch to true if there is a selected Item to avoid exception.
+                { InitControllerButtonAssign(); }, (paramater) =>  true  // add switch to true if there is a selected Item to avoid exception.
+            );
+            this.GetKeyboardButtonCommand = new RelayCommand((parameter) =>
+            { }, (parameter) => true
             );
         }
 
@@ -54,10 +64,14 @@
                 GameControllers.Add(device);
             }
         }
-        private void InitButtonAssign()
+        private void InitControllerButtonAssign()
         {
             _deviceService.AssignControllerButtonId(_selectedDevice);
             AssignedControllerButtonText = _deviceService.GameController.ControllerButton.DeviceButtonId.ToString();
+        }
+        private void InitKeyboardButtonAssing()
+        {
+
         }
 
         public GameControllerViewModel()

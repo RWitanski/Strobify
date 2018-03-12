@@ -1,7 +1,7 @@
 ﻿namespace Strobify.Strategies
 {
     using System;
-    using Strobify.Model;    
+    using Strobify.Model;
     using SlimDX.DirectInput;
     using Strategies.Interfaces;
     using System.Windows.Threading;
