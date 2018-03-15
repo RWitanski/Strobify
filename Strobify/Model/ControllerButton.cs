@@ -4,7 +4,7 @@
 
     public class ControllerButton
     {
-        public int DeviceButtonId { get; set; }
+        public short DeviceButtonId { get; set; }
         public VirtualKeyCode KeyboardKeyCode { get; set; }
     }
 }

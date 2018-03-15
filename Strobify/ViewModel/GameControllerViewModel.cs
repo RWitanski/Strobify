@@ -62,7 +62,8 @@
 
         public RelayCommand GetDevicesCommand { get; private set; }
         public RelayCommand GetButtonIdCommand { get; private set; }
-        public RelayCommand GetKeyboardButtonCommand { get; private set; }
+        //public RelayCommand GetKeyboardButtonCommand { get; private set; }
+        public RelayCommand StartCommand { get; private set; }
 
         public void InitCommands()
         {
@@ -72,8 +73,11 @@
             this.GetButtonIdCommand = new RelayCommand((parameter) =>
                 { InitControllerButtonAssign(); }, (paramater) =>  true  // add switch to true if there is a selected Item to avoid exception.
             );
-            this.GetKeyboardButtonCommand = new RelayCommand((parameter) =>
-            { }, (parameter) => true
+            //this.GetKeyboardButtonCommand = new RelayCommand((parameter) =>
+            //{ }, (parameter) => true
+            //);
+            this.StartCommand = new RelayCommand((parameter) =>
+                { StartLightService(); }, (parameter) => true
             );
         }
 
@@ -86,14 +90,18 @@
                 GameControllers.Add(device);
             }
         }
+
         private void InitControllerButtonAssign()
         {
-            _deviceService.AssignControllerButtonId(_selectedDevice);
+            _deviceService.AssignButtonsToController(SelectedDevice, AssignedKeyboardButtonText);
             AssignedControllerButtonText = _deviceService.GameController.ControllerButton.DeviceButtonId.ToString();
         }
-        private void InitKeyboardButtonAssign()
-        {
 
+        private void StartLightService()
+        {
+            _deviceService.Delay = Delay;
+            _deviceService.Repeats = Repeats;
+            _deviceService.StartLightService(_selectedDevice, AssignedControllerButtonText, AssignedKeyboardButtonText);
         }
     }
 }

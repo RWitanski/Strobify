@@ -90,6 +90,8 @@
     <Compile Include="Repositories\Interfaces\IDeviceRepository.cs" />
     <Compile Include="Services\DeviceService.cs" />
     <Compile Include="Services\Interfaces\IDeviceService.cs" />
+    <Compile Include="Services\Interfaces\ILightService.cs" />
+    <Compile Include="Services\LightService.cs" />
     <Compile Include="Strategies\ButtonMapperStrategy.cs" />
     <Compile Include="Strategies\ControllerButtonMapper.cs" />
     <Compile Include="Strategies\Interfaces\IButtonMapperStrategy.cs" />

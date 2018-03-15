@@ -1,7 +1,7 @@
 ﻿namespace Strobify.Repositories
 {
     using Strobify.Model;
-    using SlimDX.DirectInput;     
+    using SlimDX.DirectInput;
     using System.Collections.Generic;
     using Strobify.Repositories.Interfaces;
 

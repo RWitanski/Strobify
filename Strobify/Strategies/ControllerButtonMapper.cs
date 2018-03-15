@@ -8,8 +8,10 @@
 
     public class ControllerButtonMapper : IControllerButtonMapper
     {
-        protected Joystick Joystick { get; private set; }
-        protected GameController GameController { get; private set; }
+        private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
+
+        public Joystick Joystick { get; private set; }
+        public GameController GameController { get; private set; }
 
         public void AssignControllerButtonId(GameController gameController)
         {
@@ -22,14 +24,12 @@
             catch (Exception e)
             {
                 throw;
-            }
-            
+            }      
             Joystick.Properties.BufferSize = 128;
             Joystick.Acquire();
 
             StartTimer();
         }
-        private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
         private void StartTimer()
         {
@@ -42,7 +42,7 @@
         {
             Joystick.Poll();
             JoystickState currState = Joystick.GetCurrentState();
-            int buttonId = 0;
+            short buttonId = 0;
             foreach (var buttonState in currState.GetButtons())
             {
                 if (buttonState)

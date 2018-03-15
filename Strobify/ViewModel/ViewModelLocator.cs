@@ -52,6 +52,7 @@ namespace Strobify.ViewModel
             SimpleIoc.Default.Register<IButtonMapperStrategy, ButtonMapperStrategy>();
             SimpleIoc.Default.Register<IControllerButtonMapper, ControllerButtonMapper>();
             SimpleIoc.Default.Register<IKeyboardButtonMapper, KeyboardButtonMapper>();
+            SimpleIoc.Default.Register<ILightService, LightService>();
 
             SimpleIoc.Default.Register<GameControllerViewModel>();
         }
