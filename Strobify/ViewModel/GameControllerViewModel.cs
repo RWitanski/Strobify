@@ -1,7 +1,6 @@
 ﻿namespace Strobify.ViewModel
 {
     using GalaSoft.MvvmLight;
-    using GalaSoft.MvvmLight.Ioc;
     using Strobify.Helpers;
     using Strobify.Model;
     using Strobify.Services.Interfaces;
@@ -10,7 +9,7 @@
     public class GameControllerViewModel : ViewModelBase
     {
         public ObservableCollection<GameController> GameControllers { get; set; } = new ObservableCollection<GameController>();
-        private readonly IDeviceService _deviceService = SimpleIoc.Default.GetInstance<IDeviceService>();
+        private readonly IDeviceService _deviceService;
 
         public GameControllerViewModel(IDeviceService deviceService)
         {

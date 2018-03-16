@@ -1,6 +1,5 @@
 ﻿namespace Strobify.Services
 {
-    using GalaSoft.MvvmLight.Ioc;
     using Strobify.Model;
     using Strobify.Repositories.Interfaces;
     using Strobify.Services.Interfaces;
@@ -10,9 +9,9 @@
 
     public class DeviceService : IDeviceService
     {
-        private readonly IDeviceRepository _deviceRepo = SimpleIoc.Default.GetInstance<IDeviceRepository>();
-        private readonly IButtonMapperStrategy _buttonMapperStrategy = SimpleIoc.Default.GetInstance<IButtonMapperStrategy>();
-        private readonly ILightService _lightService = SimpleIoc.Default.GetInstance<ILightService>();
+        private readonly IDeviceRepository _deviceRepo;
+        private readonly IButtonMapperStrategy _buttonMapperStrategy;
+        private readonly ILightService _lightService;
         private short _delay;
 
         public short Delay
