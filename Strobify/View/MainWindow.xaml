@@ -7,25 +7,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-        Title="Strobify" Height="220" Width="525">
+        Title="Strobify" Height="172.412" Width="343.859">
     <Window.Resources>
         <converters:StringOnlyConverter x:Key="stringConverter"/>
     </Window.Resources>
 
-    <Grid HorizontalAlignment="Left" Width="517" Margin="0,0,0,16">
-        <ComboBox ItemsSource="{Binding GameControllers}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDevice}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="383"/>
-        <Button Content="Get devices" Command="{Binding GetDevicesCommand}" HorizontalAlignment="Left" Margin="398,10,0,0" VerticalAlignment="Top" Width="109"  Height="22"/>
-
-        <Button Content="Set button" Command="{Binding GetButtonIdCommand}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="84"/>
+    <Grid HorizontalAlignment="Left" Width="334">
+        <ComboBox ItemsSource="{Binding GameControllers}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDevice}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288"/>
+        <Button Command="{Binding GetDevicesCommand}" HorizontalAlignment="Left" Margin="303,10,0,0" VerticalAlignment="Top" Width="28"  Height="26">
+            <StackPanel>
+                <Image Source="/Strobify;component/Resources/Images/refresh_white_36x36.png" Height="14" Width="16"/>
+            </StackPanel>
+        </Button>
+        <Button Content="Set button" Command="{Binding GetButtonIdCommand}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="75"/>
         <!--<Label Content="Controller Button: " HorizontalAlignment="Left" Margin="99,42,0,0" VerticalAlignment="Top" Width="170"/> -->
-        <Label Content="{Binding AssignedControllerButtonText}" HorizontalAlignment="Left" Margin="99,42,0,0" VerticalAlignment="Top" Width="25" FontWeight="Bold"/>
+        <Label Content="{Binding ControllerButtonText}" HorizontalAlignment="Left" Margin="99,42,0,0" VerticalAlignment="Top" Width="25" FontWeight="Bold"/>
 
-        <Label Content="Delay (ms)" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="84"/>
-        <controls:NumericUpDown Value="{Binding Delay}" Minimum="100" Maximum="500" Interval="1" StringFormat="N0" Margin="99,73,318,72" />
-        <Label Content="Repeats" HorizontalAlignment="Left" Margin="204,75,0,0" VerticalAlignment="Top" Width="84"/>
-        <controls:NumericUpDown Value="{Binding Repeats}" Minimum="2" Maximum="30" Interval="2" StringFormat="N0" Margin="293,73,124,72" />
-        <Button Content="Start" Command="{Binding StartCommand}" HorizontalAlignment="Left" Margin="398,145,0,0" VerticalAlignment="Top" Width="109"/>
+        <Label Content="Delay (ms)" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="70"/>
+        <controls:NumericUpDown Value="{Binding Delay}" Minimum="100" Maximum="500" Interval="1" StringFormat="N0" Margin="85,75,174,39" />
+        <Label Content="Repeats" HorizontalAlignment="Left" Margin="165,76,0,0" VerticalAlignment="Top" Width="55"/>
+        <controls:NumericUpDown Value="{Binding Repeats}" Minimum="2" Maximum="30" Interval="2" StringFormat="N0" Margin="223,74,36,39" />
+        <Button Content="Start" Command="{Binding StartCommand}" HorizontalAlignment="Left" Margin="223,107,0,0" VerticalAlignment="Top" Width="75"/>
         <!-- , Converter={StaticResource stringConverter} -->
-        <TextBox x:Name="KeyboardButtonTxtBox" Text="{Binding AssignedKeyboardButtonText}" PreviewTextInput="StringValidation" HorizontalAlignment="Left" Height="23" Margin="293,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" MaxLines="1" MaxLength="1"/>
+        <TextBox x:Name="KeyboardButtonTxtBox" Text="{Binding KeyboardButtonText}" PreviewTextInput="StringValidation" HorizontalAlignment="Left" Height="23" Margin="223,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" MaxLines="1" MaxLength="1"/>
     </Grid>
 </controls:MetroWindow>
