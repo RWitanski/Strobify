@@ -5,7 +5,7 @@
 
     public interface IDeviceService
     {
-        GameController GameController { get; }
+        //GameController GameController { get; }
         IEnumerable<GameController> GetDevices();
         void AssignButtonsToController(GameController gameController, string keyboardButton);       
         void StartLightService(GameController gameController, string assignedControllerButtonId, string assignedKeyboardButton);

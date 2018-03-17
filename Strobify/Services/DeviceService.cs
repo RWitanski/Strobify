@@ -9,6 +9,13 @@
 
     public class DeviceService : IDeviceService
     {
+        public DeviceService(IDeviceRepository deviceRepo, IButtonMapperStrategy buttonMapperStrategy, ILightService lightService)
+        {
+            this._deviceRepo = deviceRepo;
+            this._buttonMapperStrategy = buttonMapperStrategy;
+            this._lightService = lightService;
+        }
+
         private readonly IDeviceRepository _deviceRepo;
         private readonly IButtonMapperStrategy _buttonMapperStrategy;
         private readonly ILightService _lightService;
@@ -28,21 +35,12 @@
             set { _repeats = _lightService.Repeats = value; }
         }
 
-        public DeviceService(IDeviceRepository deviceRepo, IButtonMapperStrategy buttonMapperStrategy, ILightService lightService)
-        {
-            this._deviceRepo = deviceRepo;
-            this._buttonMapperStrategy = buttonMapperStrategy;
-            this._lightService = lightService;
-        }
-
-        public GameController GameController { get; private set; }
-
         public void AssignButtonsToController(GameController gameController, string keyboardButton)
         {
-            GameController = gameController;
             AssignControllerButton(gameController);
             AssignKeyboardButton(gameController, keyboardButton);
         }
+
         public void StartLightService(GameController gameController, string assignedControllerButtonId, string assignedKeyboardButton)
         {
             _lightService.GameController = gameController;
@@ -54,7 +52,6 @@
         private void AssignControllerButton(GameController gameController)
         {
             _buttonMapperStrategy.ControllerButtonMapper.AssignControllerButtonId(gameController);
-
         }
 
         private void AssignKeyboardButton(GameController gameController, string keyboardButton)
