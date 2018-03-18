@@ -9,7 +9,5 @@
         IEnumerable<GameController> GetDevices();
         void AssignButtonsToController(GameController gameController, string keyboardButton);       
         void StartLightService(GameController gameController, string assignedControllerButtonId, string assignedKeyboardButton);
-        short Delay { get; set; }
-        short Repeats { get; set; }
     }
 }

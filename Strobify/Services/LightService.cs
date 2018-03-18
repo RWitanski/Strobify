@@ -15,10 +15,8 @@
 
         public short Delay { get; set; }
         public short Repeats { get; set; }
-
-        protected Joystick Joystick { get; private set; }
         public GameController GameController { get; set; }
-        
+        protected Joystick Joystick { get; private set; }
 
         private bool CheckButtonPress(Joystick stick, short controllerButtonId)
         {

@@ -10,10 +10,12 @@
     {
         public ObservableCollection<GameController> GameControllers { get; set; } = new ObservableCollection<GameController>();
         private readonly IDeviceService _deviceService;
+        private readonly ILightService _lightService;
 
-        public GameControllerViewModel(IDeviceService deviceService)
+        public GameControllerViewModel(IDeviceService deviceService, ILightService lightService)
         {
             this._deviceService = deviceService;
+            this._lightService = lightService;
             InitCommands();
             InitGameControllerList();
         }
@@ -92,8 +94,8 @@
 
         private void StartLightService()
         {
-            _deviceService.Delay = Delay;
-            _deviceService.Repeats = Repeats;
+            _lightService.Delay = Delay;
+            _lightService.Repeats = Repeats;
             _deviceService.StartLightService(_selectedDevice, ControllerButtonText, KeyboardButtonText);
         }
     }

@@ -21,23 +21,14 @@
         private readonly ILightService _lightService;
         private short _delay;
 
-        public short Delay
-        {
-            get { return _delay; }
-            set { _delay  = _lightService.Delay = value; }
-        }
-
-        private short _repeats;
-
-        public short Repeats
-        {
-            get { return _repeats; }
-            set { _repeats = _lightService.Repeats = value; }
-        }
 
         public string GetGameControllerButtonId(GameController gameController)
         {
             return gameController.ControllerButton.DeviceButtonId.ToString();
+        }
+        private void AssignControllerButton(GameController gameController)
+        {
+            _buttonMapperStrategy.ControllerButtonMapper.AssignControllerButtonId(gameController);
         }
 
         public void AssignButtonsToController(GameController gameController, string keyboardButton)
@@ -52,12 +43,7 @@
             _lightService.GameController.ControllerButton.DeviceButtonId = Convert.ToInt16(assignedControllerButtonId);
             _lightService.GameController.ControllerButton.KeyboardKeyCode = _buttonMapperStrategy.KeyboardButtonMapper.SetVirtualKeyCode(assignedKeyboardButton);
             _lightService.StartTimer();
-        }
-
-        private void AssignControllerButton(GameController gameController)
-        {
-            _buttonMapperStrategy.ControllerButtonMapper.AssignControllerButtonId(gameController);
-        }
+        }        
 
         private void AssignKeyboardButton(GameController gameController, string keyboardButton)
         {
