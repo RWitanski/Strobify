@@ -35,6 +35,11 @@
             set { _repeats = _lightService.Repeats = value; }
         }
 
+        public string GetGameControllerButtonId(GameController gameController)
+        {
+            return gameController.ControllerButton.DeviceButtonId.ToString();
+        }
+
         public void AssignButtonsToController(GameController gameController, string keyboardButton)
         {
             AssignControllerButton(gameController);

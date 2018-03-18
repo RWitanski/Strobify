@@ -24,10 +24,10 @@
             catch (Exception e)
             {
                 throw;
-            }      
+            }
+
             Joystick.Properties.BufferSize = 128;
             Joystick.Acquire();
-
             StartTimer();
         }
 

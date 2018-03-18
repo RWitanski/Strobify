@@ -87,7 +87,7 @@
         private void InitControllerButtonAssign()
         {
             _deviceService.AssignButtonsToController(SelectedDevice, KeyboardButtonText);
-            ControllerButtonText = _deviceService.GameController.ControllerButton.DeviceButtonId.ToString();
+            ControllerButtonText = _deviceService.GetGameControllerButtonId(_selectedDevice);
         }
 
         private void StartLightService()
