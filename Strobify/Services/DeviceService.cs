@@ -19,8 +19,6 @@
         private readonly IDeviceRepository _deviceRepo;
         private readonly IButtonMapperStrategy _buttonMapperStrategy;
         private readonly ILightService _lightService;
-        private short _delay;
-
 
         public string GetGameControllerButtonId(GameController gameController)
         {
