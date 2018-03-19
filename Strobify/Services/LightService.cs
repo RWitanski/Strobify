@@ -18,27 +18,31 @@
         public GameController GameController { get; set; }
         protected Joystick Joystick { get; private set; }
 
-        private bool CheckButtonPress(Joystick stick, short controllerButtonId)
+        private bool IsButtonPressed(Joystick stick, short controllerButtonId)
         {
             JoystickState currState = stick.GetCurrentState();
-            return currState.IsPressed(controllerButtonId) ? true : false;
+            return currState.IsPressed(controllerButtonId);
         }
 
         private void StickHandlingLogic(Joystick stick)
         {
             stick.Poll();
-            if (CheckButtonPress(stick, GameController.ControllerButton.DeviceButtonId))
+            //if (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
+            //{
+            //    for (short i = 0; i < Repeats; i++)
+            //    {
+            //        SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
+            //        SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
+            //    }
+            //}
+                
+            while (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
             {
-                SendLights();
-            }
-        }
-
-        private void SendLights()
-        {
-            for (short i = 0; i < Repeats; i++)
-            {
-                SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
-                SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
+                for (short i = 0; i < Repeats; i++)
+                {
+                    SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
+                    SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
+                }
             }
         }
 

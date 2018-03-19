@@ -18,7 +18,7 @@
 
             // now set the Green accent and dark theme
             ThemeManager.ChangeAppStyle(Application.Current,
-                                        ThemeManager.GetAccent("Orange"),
+                                        ThemeManager.GetAccent("Green"),
                                         ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
             base.OnStartup(e);
         }
