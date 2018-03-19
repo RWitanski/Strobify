@@ -13,8 +13,14 @@
     </Window.Resources>
 
     <Grid HorizontalAlignment="Left" Width="334">
-        <ComboBox ItemsSource="{Binding GameControllers}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDevice}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288"/>
-        <Button Command="{Binding GetDevicesCommand}" HorizontalAlignment="Left" Margin="303,10,0,0" VerticalAlignment="Top" Width="28"  Height="26">
+        <ComboBox 
+            ItemsSource="{Binding GameControllers}"
+            DisplayMemberPath="Name" 
+            SelectedItem="{Binding SelectedDevice}" 
+            IsSynchronizedWithCurrentItem="True"
+            HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288"/>
+        <Button Command="{Binding GetDevicesCommand}" 
+                HorizontalAlignment="Left" Margin="303,10,0,0" VerticalAlignment="Top" Width="28"  Height="26">
             <StackPanel>
                 <Image Source="/Strobify;component/Resources/Images/refresh_white_36x36.png" Height="14" Width="16"/>
             </StackPanel>
