@@ -1,8 +1,9 @@
 ﻿namespace Strobify.ViewModel
 {
-    using GalaSoft.MvvmLight;
-    using Strobify.Helpers;
+    using System.Linq;
     using Strobify.Model;
+    using Strobify.Helpers;
+    using GalaSoft.MvvmLight;
     using Strobify.Services.Interfaces;
     using System.Collections.ObjectModel;
 
@@ -79,11 +80,11 @@
         public void InitGameControllerList()
         {
             GameControllers.Clear();
-
             foreach (var device in _deviceService.GetDevices())
             {
                 GameControllers.Add(device);
             }
+            SelectedDevice = GameControllers.FirstOrDefault();
         }
 
         private void InitControllerButtonAssign()
