@@ -19,6 +19,7 @@
             this._lightService = lightService;
             InitCommands();
             InitGameControllerList();
+            StartLightService();
         }
 
         private GameController _selectedDevice;
@@ -49,6 +50,7 @@
                 Set(ref _keyboardButtonText, value);
             }
         }
+
         private short _delay = 150;
         public short Delay
         {
@@ -95,9 +97,12 @@
 
         private void StartLightService()
         {
-            _lightService.Delay = Delay;
-            _lightService.Repeats = Repeats;
-            _deviceService.StartLightService(_selectedDevice, ControllerButtonText, KeyboardButtonText);
+            if (SelectedDevice != null)
+            {
+                _lightService.Delay = Delay;
+                _lightService.Repeats = Repeats;
+                _deviceService.StartLightService(_selectedDevice, ControllerButtonText, KeyboardButtonText);
+            }
         }
     }
 }
