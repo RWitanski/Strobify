@@ -101,7 +101,7 @@
             {
                 _lightService.Delay = Delay;
                 _lightService.Repeats = Repeats;
-                _deviceService.StartLightService(_selectedDevice, ControllerButtonText, KeyboardButtonText);
+                _deviceService.StartLightService(SelectedDevice, ControllerButtonText, KeyboardButtonText);
             }
         }
     }

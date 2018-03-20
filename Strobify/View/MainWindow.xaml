@@ -34,12 +34,11 @@
         </Button>
         <Button Content="Set button" Command="{Binding GetButtonIdCommand}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="75"/>
         <Label Content="{Binding ControllerButtonText}" HorizontalAlignment="Left" Margin="99,42,0,0" VerticalAlignment="Top" Width="25" FontWeight="Bold"/>
-
+        <TextBox x:Name="KeyboardButtonTxtBox" Text="{Binding KeyboardButtonText}" PreviewTextInput="StringValidation" HorizontalAlignment="Left" Height="23" Margin="223,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" MaxLines="1" MaxLength="1"/>
         <Label Content="Delay (ms)" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="70"/>
         <controls:NumericUpDown Value="{Binding Delay}" Minimum="100" Maximum="500" Interval="1" StringFormat="N0" Margin="85,75,174,19" />
         <Label Content="Repeats" HorizontalAlignment="Left" Margin="165,76,0,0" VerticalAlignment="Top" Width="55"/>
         <controls:NumericUpDown Value="{Binding Repeats}" Minimum="2" Maximum="30" Interval="2" StringFormat="N0" Margin="223,74,36,20" />
         <!-- , Converter={StaticResource stringConverter} -->
-        <TextBox x:Name="KeyboardButtonTxtBox" Text="{Binding KeyboardButtonText}" PreviewTextInput="StringValidation" HorizontalAlignment="Left" Height="23" Margin="223,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" MaxLines="1" MaxLength="1"/>
     </Grid>
 </controls:MetroWindow>
