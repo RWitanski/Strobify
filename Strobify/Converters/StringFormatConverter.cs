@@ -10,9 +10,9 @@
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var stringValue = value as string;
-            Regex regex = new Regex("^[a-zA-Z0-9]+$");
-            return regex.IsMatch(stringValue) ? stringValue : string.Empty;
+                var stringValue = value as string;
+                Regex regex = new Regex("^[a-zA-Z0-9]+$");
+                return stringValue != null && regex.IsMatch(stringValue) ? stringValue : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

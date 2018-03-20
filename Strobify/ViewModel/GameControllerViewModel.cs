@@ -91,8 +91,11 @@
 
         private void InitControllerButtonAssign()
         {
-            _deviceService.AssignButtonsToController(SelectedDevice, KeyboardButtonText);
-            ControllerButtonText = _deviceService.GetGameControllerButtonId(_selectedDevice);
+            if (SelectedDevice != null)
+            {
+                _deviceService.AssignButtonsToController(SelectedDevice, KeyboardButtonText);
+                ControllerButtonText = _deviceService.GetGameControllerButtonId(_selectedDevice);
+            }
         }
 
         private void StartLightService()

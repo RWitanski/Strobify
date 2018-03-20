@@ -48,7 +48,8 @@
                 if (buttonState)
                 {
                     GameController.ControllerButton.DeviceButtonId = buttonId;
-                    _dispatcherTimer.Stop();
+                    Joystick.Unacquire();
+                    _dispatcherTimer.Stop();           
                 }
                 buttonId++;
             }
