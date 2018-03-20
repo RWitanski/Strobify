@@ -34,7 +34,7 @@
         private void StartTimer()
         {
             _dispatcherTimer.Tick += DispatcherTimer_Tick;
-            _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(50);
             _dispatcherTimer.Start();
         }
 
