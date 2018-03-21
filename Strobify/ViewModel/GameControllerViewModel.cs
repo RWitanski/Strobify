@@ -3,8 +3,9 @@
     using System.Linq;
     using Strobify.Model;
     using Strobify.Helpers;
-    using GalaSoft.MvvmLight;
+    using GalaSoft.MvvmLight;    
     using Strobify.Services.Interfaces;
+    using Strobify.Strategies.Interfaces;
     using System.Collections.ObjectModel;
 
     public class GameControllerViewModel : ViewModelBase
@@ -12,11 +13,13 @@
         public ObservableCollection<GameController> GameControllers { get; set; } = new ObservableCollection<GameController>();
         private readonly IDeviceService _deviceService;
         private readonly ILightService _lightService;
+        private readonly IButtonMapperStrategy _buttonMapperStrategy;
 
-        public GameControllerViewModel(IDeviceService deviceService, ILightService lightService)
+        public GameControllerViewModel(IDeviceService deviceService, ILightService lightService, IButtonMapperStrategy buttonMapperStrategy)
         {
             this._deviceService = deviceService;
             this._lightService = lightService;
+            this._buttonMapperStrategy = buttonMapperStrategy;
             InitCommands();
             InitGameControllerList();
             StartLightService();
@@ -66,14 +69,25 @@
         }
 
         public RelayCommand GetDevicesCommand { get; private set; }
-        public RelayCommand GetButtonIdCommand { get; private set; }
+        private RelayCommand _getButtonIdCommand;
+        public RelayCommand GetButtonIdCommand
+        {
+            get { return _getButtonIdCommand; }
+            private set
+            {
+                _getButtonIdCommand = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public RelayCommand StartCommand { get; private set; }
 
         public void InitCommands()
         {
             this.GetDevicesCommand = new RelayCommand((parameter) => InitGameControllerList()
             );
-            this.GetButtonIdCommand = new RelayCommand((parameter) => InitControllerButtonAssign(), (paramater) => true  // add switch to true if there is a selected Item to avoid exception.
+            this.GetButtonIdCommand = new RelayCommand((parameter) => InitControllerButtonAssign(),
+                (parameter) => _buttonMapperStrategy.ControllerButtonMapper.IsButtonSet
             );
             this.StartCommand = new RelayCommand((parameter) => StartLightService(), (parameter) => true
             );
@@ -91,11 +105,8 @@
 
         private void InitControllerButtonAssign()
         {
-            if (SelectedDevice != null)
-            {
                 _deviceService.AssignButtonsToController(SelectedDevice, KeyboardButtonText);
                 ControllerButtonText = _deviceService.GetGameControllerButtonId(_selectedDevice);
-            }
         }
 
         private void StartLightService()

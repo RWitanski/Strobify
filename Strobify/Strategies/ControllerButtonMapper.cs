@@ -12,6 +12,16 @@
 
         public Joystick Joystick { get; private set; }
         public GameController GameController { get; private set; }
+        //public Boolean IsButtonSet { get; private set; }
+
+        private Boolean _isButtonSet = true;
+
+        public Boolean IsButtonSet
+        {
+            get { return _isButtonSet; }
+            set { _isButtonSet = value; }
+        }
+
 
         public void AssignControllerButtonId(GameController gameController)
         {
@@ -41,6 +51,7 @@
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
             Joystick.Poll();
+            IsButtonSet = false;
             JoystickState currState = Joystick.GetCurrentState();
             short buttonId = 0;
             foreach (var buttonState in currState.GetButtons())
@@ -48,7 +59,8 @@
                 if (buttonState)
                 {
                     GameController.ControllerButton.DeviceButtonId = buttonId;
-                    _dispatcherTimer.Stop();           
+                    IsButtonSet = true;
+                    _dispatcherTimer.Stop();
                 }
                 buttonId++;
             }
