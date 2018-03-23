@@ -158,9 +158,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\m4_dtm_2017_hl.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Icons\m4_dtm_2017_hl.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
