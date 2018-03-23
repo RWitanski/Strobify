@@ -63,6 +63,16 @@ namespace Strobify.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap m4_dtm_2017_hl {
+            get {
+                object obj = ResourceManager.GetObject("m4_dtm_2017_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap refresh_grey_36x36 {
             get {
                 object obj = ResourceManager.GetObject("refresh_grey_36x36", resourceCulture);

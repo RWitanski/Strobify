@@ -7,6 +7,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         mc:Ignorable="d"
+        Icon="/Resources/Icons/m4_dtm_2017_hl.jpg"
+        ResizeMode="NoResize"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         Title="Strobify" Height="151.689" Width="343.859">
     <Window.Resources>
