@@ -41,9 +41,14 @@
         private string _controllerButtonText = "7";
         public string ControllerButtonText
         {
-            get { return _controllerButtonText; }
-            set { Set(ref _controllerButtonText, value); }
+            get { return $"Joy {_controllerButtonText}"; }
+            set
+            {
+                Set(ref _controllerButtonText, value);
+                RaisePropertyChanged();
+            }
         }
+
         private string _keyboardButtonText = "L";
         public string KeyboardButtonText
         {
@@ -101,12 +106,13 @@
                 GameControllers.Add(device);
             }
             SelectedDevice = GameControllers.FirstOrDefault();
+            _buttonMapperStrategy.ControllerButtonMapper.IsButtonSet =  GameControllers.Any();
         }
 
         private void InitControllerButtonAssign()
         {
-                _deviceService.AssignButtonsToController(SelectedDevice, KeyboardButtonText);
-                ControllerButtonText = _deviceService.GetGameControllerButtonId(_selectedDevice);
+            _deviceService.AssignButtonsToController(SelectedDevice, KeyboardButtonText);
+            ControllerButtonText = _deviceService.GetGameControllerButtonId(_selectedDevice);
         }
 
         private void StartLightService()

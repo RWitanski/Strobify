@@ -24,6 +24,7 @@
         {
             return gameController.ControllerButton.DeviceButtonId.ToString();
         }
+
         private void AssignControllerButton(GameController gameController)
         {
             _buttonMapperStrategy.ControllerButtonMapper.AssignControllerButtonId(gameController);
@@ -41,7 +42,7 @@
             _lightService.GameController.ControllerButton.DeviceButtonId = Convert.ToInt16(assignedControllerButtonId);
             _lightService.GameController.ControllerButton.KeyboardKeyCode = _buttonMapperStrategy.KeyboardButtonMapper.SetVirtualKeyCode(assignedKeyboardButton);
             _lightService.StartTimer();
-        }        
+        }
 
         private void AssignKeyboardButton(GameController gameController, string keyboardButton)
         {
