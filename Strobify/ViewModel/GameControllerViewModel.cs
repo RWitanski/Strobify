@@ -41,7 +41,7 @@
         private string _controllerButtonText = "7";
         public string ControllerButtonText
         {
-            get { return $"Joy {_controllerButtonText}"; }
+            get { return _controllerButtonText; }
             set
             {
                 Set(ref _controllerButtonText, value);
