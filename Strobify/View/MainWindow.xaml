@@ -34,7 +34,9 @@
                 <Image Source="/Strobify;component/Resources/Images/refresh_white_36x36.png" Height="14" Width="16"/>
             </StackPanel>
         </Button>
-        <Button Content="{Binding ControllerButtonText}" ContentStringFormat="Joy button {0}" Command="{Binding GetButtonIdCommand}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="{Binding ControllerButtonText}" 
+                ContentStringFormat="Wheel key {0}"
+                Command="{Binding GetButtonIdCommand}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="75"/>
         <!--    <Label Content="{Binding ControllerButtonText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="99,42,0,0" VerticalAlignment="Top" Width="25" FontWeight="Bold"/> -->
         <TextBox x:Name="KeyboardButtonTxtBox" Text="{Binding KeyboardButtonText}" PreviewTextInput="StringValidation" 
                  HorizontalContentAlignment="Center" MaxLines="1" MaxLength="1" 

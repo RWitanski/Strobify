@@ -2,6 +2,7 @@
 {
     using System;
     using Strobify.Model;
+    using System.Threading;
     using SlimDX.DirectInput;
     using Strategies.Interfaces;
     using System.Windows.Threading;
@@ -49,9 +50,10 @@
             {
                 if (buttonState)
                 {
-                    IsButtonSet = true;
-                    _dispatcherTimer.Stop();
                     GameController.ControllerButton.DeviceButtonId = buttonId;
+                    Thread.Sleep(2000);
+                    _dispatcherTimer.Stop();
+                    IsButtonSet = true;
                     break;
                 }
                 buttonId++;
