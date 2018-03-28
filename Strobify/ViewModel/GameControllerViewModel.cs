@@ -117,7 +117,7 @@
 
         private void StartLightService()
         {
-            if (SelectedDevice != null)
+            if (SelectedDevice != null && _buttonMapperStrategy.ControllerButtonMapper.IsButtonSet)
             {
                 _lightService.Delay = Delay;
                 _lightService.Repeats = Repeats;
