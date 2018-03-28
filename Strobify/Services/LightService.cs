@@ -27,15 +27,6 @@
         private void StickHandlingLogic(Joystick stick)
         {
             stick.Poll();
-            //if (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
-            //{
-            //    for (short i = 0; i < Repeats; i++)
-            //    {
-            //        SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
-            //        SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
-            //    }
-            //}
-                
             while (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
             {
                 for (short i = 0; i < Repeats; i++)

@@ -14,7 +14,6 @@
         public GameController GameController { get; private set; }
 
         public Boolean IsButtonSet { get; set; } = true;
-
         public void AssignControllerButtonId(GameController gameController)
         {
             GameController = gameController;
@@ -53,6 +52,7 @@
                     IsButtonSet = true;
                     _dispatcherTimer.Stop();
                     GameController.ControllerButton.DeviceButtonId = buttonId;
+                    break;
                 }
                 buttonId++;
             }
