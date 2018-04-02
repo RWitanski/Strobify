@@ -107,6 +107,7 @@
             }
             SelectedDevice = GameControllers.FirstOrDefault();
             _buttonMapperStrategy.ControllerButtonMapper.IsButtonSet =  GameControllers.Any();
+            StartLightService();
         }
 
         private void InitControllerButtonAssign()
