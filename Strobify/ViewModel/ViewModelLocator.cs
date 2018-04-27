@@ -14,6 +14,7 @@
 
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
 using Strobify.Repositories;
 using Strobify.Repositories.Interfaces;
 using Strobify.Services;
@@ -53,6 +54,7 @@ namespace Strobify.ViewModel
             SimpleIoc.Default.Register<IControllerButtonMapper, ControllerButtonMapper>();
             SimpleIoc.Default.Register<IKeyboardButtonMapper, KeyboardButtonMapper>();
             SimpleIoc.Default.Register<ILightService, LightService>();
+            SimpleIoc.Default.Register<IMessenger, Messenger>();
 
             SimpleIoc.Default.Register<GameControllerViewModel>();
         }

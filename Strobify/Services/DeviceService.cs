@@ -20,10 +20,6 @@
         private readonly IButtonMapperStrategy _buttonMapperStrategy;
         private readonly ILightService _lightService;
 
-        public string GetGameControllerButtonId(GameController gameController)
-        {
-            return gameController.ControllerButton.DeviceButtonId.ToString();
-        }
 
         private void AssignControllerButton(GameController gameController)
         {

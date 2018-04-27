@@ -6,10 +6,17 @@
     using SlimDX.DirectInput;
     using Strategies.Interfaces;
     using System.Windows.Threading;
+    using GalaSoft.MvvmLight.Messaging;
+    using Strobify.Messages;
 
     public class ControllerButtonMapper : IControllerButtonMapper
     {
+        private readonly IMessenger _messenger;
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
+        public ControllerButtonMapper(IMessenger messenger)
+        {
+            this._messenger = messenger;
+        }
 
         public Joystick Joystick { get; private set; }
         public GameController GameController { get; private set; }
@@ -53,7 +60,11 @@
                     GameController.ControllerButton.DeviceButtonId = buttonId;
                     Thread.Sleep(2000);
                     _dispatcherTimer.Stop();
-                    IsButtonSet = true;
+                    _messenger.Send(new ButtonChangedMessage
+                    {
+                        WheelButtonId = buttonId
+                    });
+                IsButtonSet = true;
                     break;
                 }
                 buttonId++;

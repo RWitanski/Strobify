@@ -1,12 +1,15 @@
 ﻿namespace Strobify.Strategies
 {
+    using GalaSoft.MvvmLight.Messaging;
     using Interfaces;
 
     public class ButtonMapperStrategy : IButtonMapperStrategy
     {
-        public ButtonMapperStrategy()
+        private readonly IMessenger _messenger;
+        public ButtonMapperStrategy(IMessenger messenger)
         {
-            ControllerButtonMapper = new ControllerButtonMapper();
+            _messenger = messenger;
+            ControllerButtonMapper = new ControllerButtonMapper(messenger);
             KeyboardButtonMapper = new KeyboardButtonMapper();
         }
         

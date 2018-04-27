@@ -7,6 +7,8 @@
     using Strobify.Services.Interfaces;
     using Strobify.Strategies.Interfaces;
     using System.Collections.ObjectModel;
+    using GalaSoft.MvvmLight.Messaging;
+    using Strobify.Messages;
 
     public class GameControllerViewModel : ViewModelBase
     {
@@ -14,12 +16,15 @@
         private readonly IDeviceService _deviceService;
         private readonly ILightService _lightService;
         private readonly IButtonMapperStrategy _buttonMapperStrategy;
+        private readonly IMessenger _messenger;
 
-        public GameControllerViewModel(IDeviceService deviceService, ILightService lightService, IButtonMapperStrategy buttonMapperStrategy)
+        public GameControllerViewModel(IDeviceService deviceService, ILightService lightService, IButtonMapperStrategy buttonMapperStrategy, IMessenger messenger)
         {
             this._deviceService = deviceService;
             this._lightService = lightService;
             this._buttonMapperStrategy = buttonMapperStrategy;
+            this._messenger = messenger;
+            _messenger.Register<ButtonChangedMessage>(this, this.HandleMessage);
             InitCommands();
             InitGameControllerList();
             StartLightService();
@@ -97,6 +102,10 @@
             this.StartCommand = new RelayCommand((parameter) => StartLightService(), (parameter) => true
             );
         }
+        private void HandleMessage(ButtonChangedMessage buttonChangedMessage)
+        {
+            this.ControllerButtonText = buttonChangedMessage.WheelButtonId.ToString();
+        }
 
         public void InitGameControllerList()
         {
@@ -113,7 +122,7 @@
         private void InitControllerButtonAssign()
         {
             _deviceService.AssignButtonsToController(SelectedDevice, KeyboardButtonText);
-            ControllerButtonText = _deviceService.GetGameControllerButtonId(_selectedDevice);
+            //ControllerButtonText = _deviceService.GetGameControllerButtonId(_selectedDevice);
         }
 
         private void StartLightService()
