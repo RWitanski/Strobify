@@ -1,13 +1,11 @@
 ﻿namespace Strobify.Strategies
 {
-    using System;
-    using Strobify.Model;
-    using System.Threading;
+    using GalaSoft.MvvmLight.Messaging;
     using SlimDX.DirectInput;
     using Strategies.Interfaces;
-    using System.Windows.Threading;
-    using GalaSoft.MvvmLight.Messaging;
     using Strobify.Messages;
+    using Strobify.Model;
+    using System;
     using System.Threading.Tasks;
 
     public class ControllerButtonMapper : IControllerButtonMapper
@@ -43,7 +41,7 @@
         private async Task WaitForControllerButtonPress()
         {
             IsButtonSet = false;
-            await Task.Run(() =>
+            await Task.Factory.StartNew(() =>
             {
                 while (!IsButtonSet)
                 {

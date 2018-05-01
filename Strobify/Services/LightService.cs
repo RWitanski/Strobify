@@ -10,7 +10,6 @@
 
     public class LightService : ILightService
     {
-        //private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
         public short Delay { get; set; }
         public short Repeats { get; set; }
@@ -25,7 +24,7 @@
 
         private async Task StickHandlingLogic(Joystick stick)
         {
-            await Task.Run(() =>
+            await Task.Factory.StartNew(() =>
             {
                 while (true)
                 {
