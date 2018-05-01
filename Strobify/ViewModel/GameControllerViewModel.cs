@@ -44,6 +44,7 @@
         }
 
         private string _controllerButtonText = "7";
+
         public string ControllerButtonText
         {
             get { return _controllerButtonText; }
@@ -55,6 +56,7 @@
         }
 
         private string _keyboardButtonText = "L";
+
         public string KeyboardButtonText
         {
             get { return _keyboardButtonText; }
@@ -65,6 +67,7 @@
         }
 
         private short _delay = 150;
+
         public short Delay
         {
             get { return _delay; }
@@ -72,6 +75,7 @@
         }
 
         private short _repeats = 12;
+
         public short Repeats
         {
             get { return _repeats; }
@@ -122,7 +126,6 @@
         private void InitControllerButtonAssign()
         {
             _deviceService.AssignButtonsToController(SelectedDevice, KeyboardButtonText);
-            //ControllerButtonText = _deviceService.GetGameControllerButtonId(_selectedDevice);
         }
 
         private void StartLightService()

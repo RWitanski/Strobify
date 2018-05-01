@@ -8,11 +8,11 @@
     using System.Windows.Threading;
     using GalaSoft.MvvmLight.Messaging;
     using Strobify.Messages;
+    using System.Threading.Tasks;
 
     public class ControllerButtonMapper : IControllerButtonMapper
     {
         private readonly IMessenger _messenger;
-        private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
         public ControllerButtonMapper(IMessenger messenger)
         {
             this._messenger = messenger;
@@ -20,9 +20,9 @@
 
         public Joystick Joystick { get; private set; }
         public GameController GameController { get; private set; }
-
         public Boolean IsButtonSet { get; set; } = true;
-        public void AssignControllerButtonId(GameController gameController)
+
+        public async void AssignControllerButtonId(GameController gameController)
         {
             GameController = gameController;
             var directInput = new DirectInput();
@@ -37,38 +37,35 @@
 
             Joystick.Properties.BufferSize = 128;
             Joystick.Acquire();
-            StartTimer();
+            await WaitForControllerButtonPress();
         }
 
-        private void StartTimer()
+        private async Task WaitForControllerButtonPress()
         {
-            _dispatcherTimer.Tick += DispatcherTimer_Tick;
-            _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(50);
-            _dispatcherTimer.Start();
             IsButtonSet = false;
-        }
-
-        private void DispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            Joystick.Poll();
-            JoystickState currState = Joystick.GetCurrentState();
-            short buttonId = 0;
-            foreach (var buttonState in currState.GetButtons())
+            await Task.Run(() =>
             {
-                if (buttonState)
+                while (!IsButtonSet)
                 {
-                    GameController.ControllerButton.DeviceButtonId = buttonId;
-                    Thread.Sleep(2000);
-                    _dispatcherTimer.Stop();
-                    _messenger.Send(new ButtonChangedMessage
+                    Joystick.Poll();
+                    JoystickState currState = Joystick.GetCurrentState();
+                    short buttonId = 0;
+                    foreach (var buttonPressed in currState.GetButtons())
                     {
-                        WheelButtonId = buttonId
-                    });
-                IsButtonSet = true;
-                    break;
+                        if (buttonPressed)
+                        {
+                            GameController.ControllerButton.DeviceButtonId = buttonId;
+                            _messenger.Send(new ButtonChangedMessage
+                            {
+                                WheelButtonId = buttonId
+                            });
+                            IsButtonSet = true;
+                            break;
+                        }
+                        buttonId++;
+                    }
                 }
-                buttonId++;
-            }
+            }).ConfigureAwait(true);
         }
     }
 }
