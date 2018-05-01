@@ -3,15 +3,14 @@
     using SlimDX.DirectInput;
     using Strobify.Model;
     using Strobify.Services.Interfaces;
-    using System;
     using System.Threading;
-    using System.Windows.Threading;
+    using System.Threading.Tasks;
     using WindowsInput;
     using WindowsInput.Native;
 
     public class LightService : ILightService
     {
-        private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
+        //private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
         public short Delay { get; set; }
         public short Repeats { get; set; }
@@ -24,17 +23,23 @@
             return currState.IsPressed(controllerButtonId);
         }
 
-        private void StickHandlingLogic(Joystick stick)
+        private async Task StickHandlingLogic(Joystick stick)
         {
-            stick.Poll();
-            while (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
+            await Task.Run(() =>
             {
-                for (short i = 0; i < Repeats; i++)
+                while (true)
                 {
-                    SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
-                    SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
+                    stick.Poll();
+                    while (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
+                    {
+                        for (short i = 0; i < Repeats; i++)
+                        {
+                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
+                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
+                        }
+                    }
                 }
-            }
+            });
         }
 
         private void SimulateKeyPress(VirtualKeyCode virtualKeyCode, short delay)
@@ -46,21 +51,13 @@
             Thread.Sleep(delay / 4);
         }
 
-        public void StartTimer()
-        {
-            _dispatcherTimer.Tick += DispatcherTimer_Tick;
-            _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(50);
-
+        public async void SimulateLightFlashes()
+        {         
             var dinput = new DirectInput();
             Joystick = new Joystick(dinput, GameController.DeviceGuid);
             Joystick.Properties.BufferSize = 128;
             Joystick.Acquire();
-            _dispatcherTimer.Start();
-        }
-
-        private void DispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            StickHandlingLogic(Joystick);
+            await StickHandlingLogic(Joystick);
         }
     }
 }
