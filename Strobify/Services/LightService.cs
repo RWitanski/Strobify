@@ -24,7 +24,7 @@
 
         private async Task StickHandlingLogic(Joystick stick)
         {
-            await Task.Factory.StartNew(() =>
+            await Task.Run(() =>
             {
                 while (true)
                 {
@@ -51,7 +51,7 @@
         }
 
         public async void SimulateLightFlashes()
-        {         
+        {
             var dinput = new DirectInput();
             Joystick = new Joystick(dinput, GameController.DeviceGuid);
             Joystick.Properties.BufferSize = 128;

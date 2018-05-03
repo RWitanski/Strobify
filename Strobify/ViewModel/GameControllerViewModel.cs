@@ -132,7 +132,7 @@
         {
             if (SelectedDevice != null && _buttonMapperStrategy.ControllerButtonMapper.IsButtonSet)
             {
-                _lightService.Delay = Delay;
+                _lightService.Delay = Delay; //to remove
                 _lightService.Repeats = Repeats;
                 _deviceService.StartLightService(SelectedDevice, ControllerButtonText, KeyboardButtonText);
             }

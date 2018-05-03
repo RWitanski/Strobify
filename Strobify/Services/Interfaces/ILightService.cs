@@ -1,7 +1,6 @@
 ﻿namespace Strobify.Services.Interfaces
 {
     using Strobify.Model;
-    using System.Threading.Tasks;
     public interface ILightService
     {
         void SimulateLightFlashes();
