@@ -29,72 +29,74 @@
             InitGameControllerList();
             StartLightService();
         }
-
+        
         private GameController _selectedDevice;
-        public GameController SelectedDevice
-        {
-            get
-            {
-                return _selectedDevice;
-            }
-            set
-            {
-                Set(ref _selectedDevice, value);
-            }
-        }
-
         private string _controllerButtonText = "7";
-
-        public string ControllerButtonText
-        {
-            get { return _controllerButtonText; }
-            set
-            {
-                Set(ref _controllerButtonText, value);
-                RaisePropertyChanged();
-            }
-        }
-
         private string _keyboardButtonText = "L";
-
-        public string KeyboardButtonText
-        {
-            get { return _keyboardButtonText; }
-            set
-            {
-                Set(ref _keyboardButtonText, value);
-            }
-        }
-
         private short _delay = 150;
-
-        public short Delay
-        {
-            get { return _delay; }
-            set { Set(ref _delay, value); }
-        }
-
         private short _repeats = 12;
 
-        public short Repeats
-        {
-            get { return _repeats; }
-            set { Set(ref _repeats, value); }
-        }
+        #region Properties
 
-        public RelayCommand GetDevicesCommand { get; private set; }
-        private RelayCommand _getButtonIdCommand;
-        public RelayCommand GetButtonIdCommand
-        {
-            get { return _getButtonIdCommand; }
-            private set
-            {
-                _getButtonIdCommand = value;
-                RaisePropertyChanged();
-            }
-        }
 
-        public RelayCommand StartCommand { get; private set; }
+                public GameController SelectedDevice
+                {
+                    get
+                    {
+                        return _selectedDevice;
+                    }
+                    set
+                    {
+                        Set(ref _selectedDevice, value);
+                    }
+                }
+
+                public string ControllerButtonText
+                {
+                    get { return _controllerButtonText; }
+                    set
+                    {
+                        Set(ref _controllerButtonText, value);
+                        RaisePropertyChanged();
+                    }
+                }
+
+                public string KeyboardButtonText
+                {
+                    get { return _keyboardButtonText; }
+                    set
+                    {
+                        Set(ref _keyboardButtonText, value);
+                    }
+                }
+
+                public short Delay
+                {
+                    get { return _delay; }
+                    set { Set(ref _delay, value); }
+                }
+    
+                public short Repeats
+                {
+                    get { return _repeats; }
+                    set { Set(ref _repeats, value); }
+                }
+
+                public RelayCommand GetDevicesCommand { get; private set; }
+                private RelayCommand _getButtonIdCommand;
+                public RelayCommand GetButtonIdCommand
+                {
+                    get { return _getButtonIdCommand; }
+                    private set
+                    {
+                        _getButtonIdCommand = value;
+                        RaisePropertyChanged();
+                    }
+                }
+
+                public RelayCommand StartCommand { get; private set; }
+
+                #endregion
 
         public void InitCommands()
         {
@@ -106,6 +108,7 @@
             this.StartCommand = new RelayCommand((parameter) => StartLightService(), (parameter) => true
             );
         }
+
         private void HandleMessage(ButtonChangedMessage buttonChangedMessage)
         {
             this.ControllerButtonText = buttonChangedMessage.WheelButtonId.ToString();
@@ -132,9 +135,7 @@
         {
             if (SelectedDevice != null && _buttonMapperStrategy.ControllerButtonMapper.IsButtonSet)
             {
-                _lightService.Delay = Delay; //to remove
-                _lightService.Repeats = Repeats;
-                _deviceService.StartLightService(SelectedDevice, ControllerButtonText, KeyboardButtonText);
+                _deviceService.StartLightService(SelectedDevice, ControllerButtonText, KeyboardButtonText, Delay, Repeats);
             }
         }
     }

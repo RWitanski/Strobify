@@ -3,9 +3,7 @@
     using Strobify.Model;
     public interface ILightService
     {
-        void SimulateLightFlashes();
+        void SimulateLightFlashes(short delay, short repeats);
         GameController GameController { get; set; }
-        short Delay { get; set; }
-        short Repeats { get; set; }
     }
 }

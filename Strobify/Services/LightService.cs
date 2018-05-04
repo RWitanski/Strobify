@@ -10,9 +10,9 @@
 
     public class LightService : ILightService
     {
+        private short _delay;
+        private short _repeats;
 
-        public short Delay { get; set; }
-        public short Repeats { get; set; }
         public GameController GameController { get; set; }
         protected Joystick Joystick { get; private set; }
 
@@ -31,27 +31,29 @@
                     stick.Poll();
                     while (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
                     {
-                        for (short i = 0; i < Repeats; i++)
+                        for (short i = 0; i < _repeats; i++)
                         {
-                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
-                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode, Delay);
+                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
+                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
                         }
                     }
                 }
             });
         }
 
-        private void SimulateKeyPress(VirtualKeyCode virtualKeyCode, short delay)
+        private void SimulateKeyPress(VirtualKeyCode virtualKeyCode)
         {
             var inputSimulator = new InputSimulator();
             inputSimulator.Keyboard.KeyDown(virtualKeyCode);
-            Thread.Sleep(delay / 4);
+            Thread.Sleep(_delay / 4);
             inputSimulator.Keyboard.KeyUp(virtualKeyCode);
-            Thread.Sleep(delay / 4);
+            Thread.Sleep(_delay / 4);
         }
 
-        public async void SimulateLightFlashes()
+        public async void SimulateLightFlashes(short delay, short repeats)
         {
+            _delay = delay;
+            _repeats = repeats;
             var dinput = new DirectInput();
             Joystick = new Joystick(dinput, GameController.DeviceGuid);
             Joystick.Properties.BufferSize = 128;
