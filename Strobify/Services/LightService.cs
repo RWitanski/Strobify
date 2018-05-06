@@ -29,16 +29,25 @@
                 while (true)
                 {
                     stick.Poll();
-                    while (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
+                    if (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
                     {
                         for (short i = 0; i < _repeats; i++)
                         {
-                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
-                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
+                            DoubleControllerPress();
                         }
+                    }
+                    while (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
+                    {
+                        DoubleControllerPress();
                     }
                 }
             });
+        }
+
+        private void DoubleControllerPress()
+        {
+            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
+            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
         }
 
         private void SimulateKeyPress(VirtualKeyCode virtualKeyCode)
