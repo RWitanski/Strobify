@@ -41,7 +41,7 @@
                         DoubleControllerPress();
                     }
                 }
-            });
+            }).ConfigureAwait(false);
         }
 
         private void DoubleControllerPress()
