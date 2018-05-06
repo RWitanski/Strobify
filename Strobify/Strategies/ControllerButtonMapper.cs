@@ -11,6 +11,8 @@
     public class ControllerButtonMapper : IControllerButtonMapper
     {
         private readonly IMessenger _messenger;
+        private Boolean _isButtonSet = false;
+
         public ControllerButtonMapper(IMessenger messenger)
         {
             this._messenger = messenger;
@@ -18,7 +20,6 @@
 
         public Joystick Joystick { get; private set; }
         public GameController GameController { get; private set; }
-        public Boolean IsButtonSet { get; set; } = true;
 
         public async void AssignControllerButtonId(GameController gameController)
         {
@@ -40,10 +41,17 @@
 
         private async Task WaitForControllerButtonPress()
         {
-            IsButtonSet = false;
-            await Task.Factory.StartNew(() =>
+            
+
+            _messenger.Send(new ButtonChangedMessage
             {
-                while (!IsButtonSet)
+                WheelButtonId = GameController.ControllerButton.DeviceButtonId,
+                IsButtonSet = false
+            });
+
+            await Task.Run(() =>
+            {
+                while (!_isButtonSet)
                 {
                     Joystick.Poll();
                     JoystickState currState = Joystick.GetCurrentState();
@@ -55,9 +63,10 @@
                             GameController.ControllerButton.DeviceButtonId = buttonId;
                             _messenger.Send(new ButtonChangedMessage
                             {
-                                WheelButtonId = buttonId
+                                WheelButtonId = buttonId,
+                                IsButtonSet = true
                             });
-                            IsButtonSet = true;
+                            _isButtonSet = true;
                             break;
                         }
                         buttonId++;

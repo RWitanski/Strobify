@@ -20,7 +20,6 @@
         private readonly IButtonMapperStrategy _buttonMapperStrategy;
         private readonly ILightService _lightService;
 
-
         private void AssignControllerButton(GameController gameController)
         {
             _buttonMapperStrategy.ControllerButtonMapper.AssignControllerButtonId(gameController);

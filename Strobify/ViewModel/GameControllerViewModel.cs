@@ -1,14 +1,14 @@
 ﻿namespace Strobify.ViewModel
 {
-    using System.Linq;
-    using Strobify.Model;
+    using GalaSoft.MvvmLight;
+    using GalaSoft.MvvmLight.Messaging;
     using Strobify.Helpers;
-    using GalaSoft.MvvmLight;    
+    using Strobify.Messages;
+    using Strobify.Model;
     using Strobify.Services.Interfaces;
     using Strobify.Strategies.Interfaces;
     using System.Collections.ObjectModel;
-    using GalaSoft.MvvmLight.Messaging;
-    using Strobify.Messages;
+    using System.Linq;
 
     public class GameControllerViewModel : ViewModelBase
     {
@@ -26,8 +26,8 @@
             this._messenger = messenger;
             _messenger.Register<ButtonChangedMessage>(this, this.HandleMessage);
             InitCommands();
-            InitGameControllerList();
-            StartLightService();
+            InitGameControllerList(null);
+            StartLightService(null);
         }
         
         private GameController _selectedDevice;
@@ -35,86 +35,84 @@
         private string _keyboardButtonText = "L";
         private short _delay = 150;
         private short _repeats = 12;
+        private bool _isControllerButtonEnabled = true;
 
         #region Properties
 
+        public GameController SelectedDevice
+        {
+            get
+            {
+                return _selectedDevice;
+            }
+            set
+            {
+                Set(ref _selectedDevice, value);
+            }
+        }
 
-                public GameController SelectedDevice
-                {
-                    get
-                    {
-                        return _selectedDevice;
-                    }
-                    set
-                    {
-                        Set(ref _selectedDevice, value);
-                    }
-                }
+        public string ControllerButtonText
+        {
+            get { return _controllerButtonText; }
+            set
+            {
+                Set(ref _controllerButtonText, value);
+            }
+        }
 
-                public string ControllerButtonText
-                {
-                    get { return _controllerButtonText; }
-                    set
-                    {
-                        Set(ref _controllerButtonText, value);
-                        RaisePropertyChanged();
-                    }
-                }
+        public bool IsControllerButtonEnabled
+        {
+          get { return _isControllerButtonEnabled; }
+            set
+            {
+                Set(ref _isControllerButtonEnabled, value);
+                RaisePropertyChanged();
+            }
+        }
 
-                public string KeyboardButtonText
-                {
-                    get { return _keyboardButtonText; }
-                    set
-                    {
-                        Set(ref _keyboardButtonText, value);
-                    }
-                }
+        public string KeyboardButtonText
+        {
+            get { return _keyboardButtonText; }
+            set
+            {
+                Set(ref _keyboardButtonText, value);
+            }
+        }
 
-                public short Delay
-                {
-                    get { return _delay; }
-                    set { Set(ref _delay, value); }
-                }
+        public short Delay
+        {
+            get { return _delay; }
+            set { Set(ref _delay, value); }
+        }
     
-                public short Repeats
-                {
-                    get { return _repeats; }
-                    set { Set(ref _repeats, value); }
-                }
+        public short Repeats
+        {
+            get { return _repeats; }
+            set { Set(ref _repeats, value); }
+        }
 
-                public RelayCommand GetDevicesCommand { get; private set; }
-                private RelayCommand _getButtonIdCommand;
-                public RelayCommand GetButtonIdCommand
-                {
-                    get { return _getButtonIdCommand; }
-                    private set
-                    {
-                        _getButtonIdCommand = value;
-                        RaisePropertyChanged();
-                    }
-                }
+        public RelayCommand GetDevicesCommand { get; set; }
 
-                public RelayCommand StartCommand { get; private set; }
+        public RelayCommand GetButtonIdCommand{ get; set; }
 
-                #endregion
+        public RelayCommand StartCommand { get; set; }
+
+        #endregion
 
         public void InitCommands()
         {
-            this.GetDevicesCommand = new RelayCommand((parameter) => InitGameControllerList()
-            );
-            this.GetButtonIdCommand = new RelayCommand((parameter) => InitControllerButtonAssign(),
-                (parameter) => _buttonMapperStrategy.ControllerButtonMapper.IsButtonSet
-            );
-            this.StartCommand = new RelayCommand((parameter) => StartLightService(), (parameter) => true
-            );
+            this.GetDevicesCommand = new RelayCommand(InitGameControllerList);
+            this.GetButtonIdCommand = new RelayCommand(InitControllerButtonAssign);
+            this.StartCommand = new RelayCommand(StartLightService);
         }
 
         private void HandleMessage(ButtonChangedMessage buttonChangedMessage)
         {
             this.ControllerButtonText = buttonChangedMessage.WheelButtonId.ToString();
+            this.IsControllerButtonEnabled = buttonChangedMessage.IsButtonSet;
         }
 
-        public void InitGameControllerList()
+        public void InitGameControllerList(object param)
         {
             GameControllers.Clear();
             foreach (var device in _deviceService.GetDevices())
@@ -122,18 +120,18 @@
                 GameControllers.Add(device);
             }
             SelectedDevice = GameControllers.FirstOrDefault();
-            _buttonMapperStrategy.ControllerButtonMapper.IsButtonSet =  GameControllers.Any();
-            StartLightService();
+            IsControllerButtonEnabled = GameControllers.Any();
+            StartLightService(null);
         }
 
-        private void InitControllerButtonAssign()
+        private void InitControllerButtonAssign(object param)
         {
             _deviceService.AssignButtonsToController(SelectedDevice, KeyboardButtonText);
         }
 
-        private void StartLightService()
+        private void StartLightService(object param)
         {
-            if (SelectedDevice != null && _buttonMapperStrategy.ControllerButtonMapper.IsButtonSet)
+            if (SelectedDevice != null && IsControllerButtonEnabled)
             {
                 _deviceService.StartLightService(SelectedDevice, ControllerButtonText, KeyboardButtonText, Delay, Repeats);
             }
