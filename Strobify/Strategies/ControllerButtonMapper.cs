@@ -6,12 +6,13 @@
     using Strobify.Messages;
     using Strobify.Model;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     public class ControllerButtonMapper : IControllerButtonMapper
     {
         private readonly IMessenger _messenger;
-        private Boolean _isButtonSet = false;
+        public Boolean IsMapperMode { get; set; } = false;
 
         public ControllerButtonMapper(IMessenger messenger)
         {
@@ -25,24 +26,15 @@
         {
             GameController = gameController;
             var directInput = new DirectInput();
-            try
-            {
-                Joystick = new Joystick(directInput, gameController.DeviceGuid);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-
+            Joystick = new Joystick(directInput, gameController.DeviceGuid);
+            IsMapperMode = true;
             Joystick.Properties.BufferSize = 128;
-            Joystick.Acquire();
+            Joystick.Acquire();            
             await WaitForControllerButtonPress();
         }
 
         private async Task WaitForControllerButtonPress()
         {
-            
-
             _messenger.Send(new ButtonChangedMessage
             {
                 WheelButtonId = GameController.ControllerButton.DeviceButtonId,
@@ -51,8 +43,8 @@
 
             await Task.Run(() =>
             {
-                while (!_isButtonSet)
-                {
+                while (IsMapperMode)
+                {                    
                     Joystick.Poll();
                     JoystickState currState = Joystick.GetCurrentState();
                     short buttonId = 0;
@@ -66,13 +58,14 @@
                                 WheelButtonId = buttonId,
                                 IsButtonSet = true
                             });
-                            _isButtonSet = true;
+                            IsMapperMode = false;
                             break;
                         }
                         buttonId++;
                     }
+                    Thread.Sleep(50);
                 }
-            }).ConfigureAwait(true);
+            }).ConfigureAwait(false);
         }
     }
 }

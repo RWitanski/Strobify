@@ -3,6 +3,7 @@
     using SlimDX.DirectInput;
     using Strobify.Model;
     using Strobify.Services.Interfaces;
+    using Strobify.Strategies.Interfaces;
     using System.Threading;
     using System.Threading.Tasks;
     using WindowsInput;
@@ -12,6 +13,12 @@
     {
         private short _delay;
         private short _repeats;
+        private readonly IControllerButtonMapper _controllerButtonMapper;
+
+        public LightService(IControllerButtonMapper controllerButtonMapper)
+        {
+            this._controllerButtonMapper = controllerButtonMapper;
+        }
 
         public GameController GameController { get; set; }
         protected Joystick Joystick { get; private set; }
@@ -26,7 +33,7 @@
         {
             await Task.Run(() =>
             {
-                while (true)
+                while (!_controllerButtonMapper.IsMapperMode)
                 {
                     stick.Poll();
                     if (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
@@ -40,6 +47,7 @@
                     {
                         DoubleControllerPress();
                     }
+                    Thread.Sleep(50);
                 }
             }).ConfigureAwait(false);
         }
