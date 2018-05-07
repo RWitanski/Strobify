@@ -17,38 +17,46 @@
         private readonly ILightService _lightService;
         private readonly IButtonMapperStrategy _buttonMapperStrategy;
         private readonly IMessenger _messenger;
+        private readonly IConfigurationService _configurationService;
 
-        public GameControllerViewModel(IDeviceService deviceService, ILightService lightService, IButtonMapperStrategy buttonMapperStrategy, IMessenger messenger)
+        private GameController _selectedDevice;
+        private string _controllerButtonText;
+        private string _keyboardButtonText;
+        private short _delay;
+        private short _repeats;
+        private bool _isControllerButtonEnabled = true;
+        private Configuration _configuration;
+
+        public GameControllerViewModel(IDeviceService deviceService, ILightService lightService, IButtonMapperStrategy buttonMapperStrategy, IMessenger messenger, IConfigurationService configurationService)
         {
             this._deviceService = deviceService;
             this._lightService = lightService;
             this._buttonMapperStrategy = buttonMapperStrategy;
             this._messenger = messenger;
-            _messenger.Register<ButtonChangedMessage>(this, this.HandleMessage);
+            this._configurationService = configurationService;
+            _messenger.Register<ButtonChangedMessage>(this, this.HandleButtonMessage);
             InitCommands();
+            Configuration = configurationService.ReadConfiguration();
             InitGameControllerList(null);
             StartLightService(null);
         }
-        
-        private GameController _selectedDevice;
-        private string _controllerButtonText = "7";
-        private string _keyboardButtonText = "L";
-        private short _delay = 150;
-        private short _repeats = 12;
-        private bool _isControllerButtonEnabled = true;
 
         #region Properties
+
+        protected Configuration Configuration
+        {
+            get { return _configuration; }
+            set
+            {
+                _configuration = value;
+                AssignConfiguration();
+            }
+        }
 
         public GameController SelectedDevice
         {
             get { return _selectedDevice; }
             set { Set(ref _selectedDevice, value); }
-        }
-
-        public string ControllerButtonText
-        {
-            get { return _controllerButtonText; }
-            set { Set(ref _controllerButtonText, value); }
         }
 
         public bool IsControllerButtonEnabled
@@ -61,10 +69,24 @@
             }
         }
 
+        public string ControllerButtonText
+        {
+            get { return _controllerButtonText; }
+            set
+            {
+                Set(ref _controllerButtonText, value);
+                _configurationService.Configuration.ControllerBtn = _controllerButtonText;
+            }
+        }
+
         public string KeyboardButtonText
         {
             get { return _keyboardButtonText; }
-            set { Set(ref _keyboardButtonText, value); }
+            set
+            {
+                Set(ref _keyboardButtonText, value);
+                _configurationService.Configuration.KeyboardBtn = _keyboardButtonText;
+            }
         }
 
         public short Delay
@@ -74,6 +96,7 @@
             {
                 Set(ref _delay, value);
                 _lightService.Delay = _delay;
+                _configurationService.Configuration.Delay = _delay;
             }
         }
 
@@ -84,6 +107,7 @@
             {
                 Set(ref _repeats, value);
                 _lightService.Repeats = _repeats;
+                _configurationService.Configuration.Repeats = _repeats;
             }
         }
 
@@ -102,22 +126,20 @@
             this.StartCommand = new RelayCommand(StartLightService);
         }
 
-        private void HandleMessage(ButtonChangedMessage buttonChangedMessage)
+        private void HandleButtonMessage(ButtonChangedMessage buttonChangedMessage)
         {
             this.ControllerButtonText = buttonChangedMessage.WheelButtonId.ToString();
             this.IsControllerButtonEnabled = buttonChangedMessage.IsButtonSet;
         }
 
-        public void InitGameControllerList(object param)
+        
+
+        private void AssignConfiguration()
         {
-            GameControllers.Clear();
-            foreach (var device in _deviceService.GetDevices())
-            {
-                GameControllers.Add(device);
-            }
-            SelectedDevice = GameControllers.FirstOrDefault();
-            IsControllerButtonEnabled = GameControllers.Any();
-            StartLightService(null);
+            Delay = _configuration.Delay;
+            Repeats = _configuration.Repeats;
+            ControllerButtonText = _configuration.ControllerBtn;
+            KeyboardButtonText = _configuration.KeyboardBtn;
         }
 
         private void InitControllerButtonAssign(object param)
@@ -133,6 +155,18 @@
                 _lightService.Delay = _delay;
                 _deviceService.StartLightService(SelectedDevice, ControllerButtonText, KeyboardButtonText);
             }
+        }
+
+        public void InitGameControllerList(object param)
+        {
+            GameControllers.Clear();
+            foreach (var device in _deviceService.GetDevices())
+            {
+                GameControllers.Add(device);
+            }
+            SelectedDevice = GameControllers.FirstOrDefault();
+            IsControllerButtonEnabled = GameControllers.Any();
+            StartLightService(null);
         }
     }
 }

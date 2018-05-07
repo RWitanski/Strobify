@@ -39,7 +39,9 @@
                 ContentStringFormat="Wheel key {0}"
                 IsEnabled="{Binding IsControllerButtonEnabled}"
                 Command="{Binding GetButtonIdCommand}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="75"/>
-        <TextBox x:Name="KeyboardButtonTxtBox" Text="{Binding KeyboardButtonText}" PreviewTextInput="StringValidation" 
+        <TextBox x:Name="KeyboardButtonTxtBox" Text="{Binding KeyboardButtonText}" 
+                 PreviewTextInput="StringValidation"
+                 CharacterCasing="Upper"
                  HorizontalContentAlignment="Center" MaxLines="1" MaxLength="1" 
                  HorizontalAlignment="Left" Height="23" Margin="223,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" Padding="0"/>
         <Label Content="Delay (ms)" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="70"/>

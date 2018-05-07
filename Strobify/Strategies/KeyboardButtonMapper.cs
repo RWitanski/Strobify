@@ -21,8 +21,10 @@
                     return VirtualKeyCode.VK_E;
                 case "F":
                     return VirtualKeyCode.VK_F;
+                case "G":
+                    return VirtualKeyCode.VK_G;
                 case "H":
-                    return VirtualKeyCode.VK_G;               
+                    return VirtualKeyCode.VK_H;
                 case "I":
                     return VirtualKeyCode.VK_I;
                 case "J":

@@ -1,15 +1,18 @@
-﻿using Strobify.Services.Interfaces;
-using System;
-using System.IO;
-using System.Xml.Linq;
-
-namespace Strobify.Services
+﻿namespace Strobify.Services
 {
+    using Strobify.Model;
+    using Strobify.Services.Interfaces;
+    using System;
+    using System.IO;
+    using System.Xml.Linq;
+
     public class ConfigurationService : IConfigurationService
     {
         private readonly string _cfgFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         private const string _cfgFolderName = "Strobify";
         private const string _cfgFileName = "StrobifyConfig.xml";
+
+        public Configuration Configuration { get; set; }
 
         private void CreateAppFolder()
         {
@@ -25,11 +28,11 @@ namespace Strobify.Services
             XDocument document = new XDocument(
                 new XElement("Configuration",
                     new XElement("Time",
-                        new XAttribute("delay", "100"),
-                        new XAttribute("repeats", "20")),
+                        new XAttribute("delay", Configuration.Delay.ToString()),
+                        new XAttribute("repeats", Configuration.Repeats.ToString())),
                     new XElement("Mappings",
-                        new XAttribute("controllerBtn", "12"),
-                        new XAttribute("key", "H")),
+                        new XAttribute("controllerBtn", Configuration.ControllerBtn),
+                        new XAttribute("keyboardBtn", Configuration.KeyboardBtn.ToUpper())),
                     new XElement("Info",
                         new XElement("Date",
                             new XAttribute("modified", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
@@ -42,10 +45,33 @@ namespace Strobify.Services
             document.Save(cfgFullFileName);
         }
 
+        private Configuration ReadConfigFile()
+        {
+            var cfgFullFileName = Path.Combine(_cfgFolderPath, _cfgFolderName, _cfgFileName);
+            if (File.Exists(cfgFullFileName))
+            {
+                Configuration = new Configuration();
+
+                XDocument document = XDocument.Load(cfgFullFileName);
+                Configuration.Delay = Convert.ToInt16(document.Root.Element("Time").Attribute("delay").Value);
+                Configuration.Repeats = Convert.ToInt16(document.Root.Element("Time").Attribute("repeats").Value);
+                Configuration.ControllerBtn = document.Root.Element("Mappings").Attribute("controllerBtn").Value;
+                Configuration.KeyboardBtn = document.Root.Element("Mappings").Attribute("keyboardBtn").Value;
+
+                return Configuration;
+            }
+            return new Configuration { Delay = 250, Repeats = 12, ControllerBtn = "7", KeyboardBtn = "L" };
+        }
+
         public void SaveConfiguration()
         {
             CreateAppFolder();
             CreateConfigFile();
+        }
+
+        public Configuration ReadConfiguration()
+        {
+            return ReadConfigFile();
         }
     }
 }
