@@ -41,28 +41,19 @@
 
         public GameController SelectedDevice
         {
-            get
-            {
-                return _selectedDevice;
-            }
-            set
-            {
-                Set(ref _selectedDevice, value);
-            }
+            get { return _selectedDevice; }
+            set { Set(ref _selectedDevice, value); }
         }
 
         public string ControllerButtonText
         {
             get { return _controllerButtonText; }
-            set
-            {
-                Set(ref _controllerButtonText, value);
-            }
+            set { Set(ref _controllerButtonText, value); }
         }
 
         public bool IsControllerButtonEnabled
         {
-          get { return _isControllerButtonEnabled; }
+            get { return _isControllerButtonEnabled; }
             set
             {
                 Set(ref _isControllerButtonEnabled, value);
@@ -73,22 +64,27 @@
         public string KeyboardButtonText
         {
             get { return _keyboardButtonText; }
-            set
-            {
-                Set(ref _keyboardButtonText, value);
-            }
+            set { Set(ref _keyboardButtonText, value); }
         }
 
         public short Delay
         {
             get { return _delay; }
-            set { Set(ref _delay, value); }
+            set
+            {
+                Set(ref _delay, value);
+                _lightService.Delay = _delay;
+            }
         }
-    
+
         public short Repeats
         {
             get { return _repeats; }
-            set { Set(ref _repeats, value); }
+            set
+            {
+                Set(ref _repeats, value);
+                _lightService.Repeats = _repeats;
+            }
         }
 
         public RelayCommand GetDevicesCommand { get; set; }
@@ -133,7 +129,9 @@
         {
             if (SelectedDevice != null && IsControllerButtonEnabled)
             {
-                _deviceService.StartLightService(SelectedDevice, ControllerButtonText, KeyboardButtonText, Delay, Repeats);
+                _lightService.Repeats = _repeats;
+                _lightService.Delay = _delay;
+                _deviceService.StartLightService(SelectedDevice, ControllerButtonText, KeyboardButtonText);
             }
         }
     }

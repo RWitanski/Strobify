@@ -31,12 +31,12 @@
             AssignKeyboardButton(gameController, keyboardButton);
         }
 
-        public void StartLightService(GameController gameController, string assignedControllerButtonId, string assignedKeyboardButton, short delay, short repeats)
+        public void StartLightService(GameController gameController, string assignedControllerButtonId, string assignedKeyboardButton)
         {
             _lightService.GameController = gameController;
             _lightService.GameController.ControllerButton.DeviceButtonId = Convert.ToInt16(assignedControllerButtonId);
             _lightService.GameController.ControllerButton.KeyboardKeyCode = _buttonMapperStrategy.KeyboardButtonMapper.SetVirtualKeyCode(assignedKeyboardButton);
-            _lightService.SimulateLightFlashes(delay, repeats);
+            _lightService.SimulateLightFlashes();
         }
 
         private void AssignKeyboardButton(GameController gameController, string keyboardButton)
