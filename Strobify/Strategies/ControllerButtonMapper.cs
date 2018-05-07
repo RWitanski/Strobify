@@ -29,7 +29,7 @@
             Joystick = new Joystick(directInput, gameController.DeviceGuid);
             IsMapperMode = true;
             Joystick.Properties.BufferSize = 128;
-            Joystick.Acquire();            
+            Joystick.Acquire();
             await WaitForControllerButtonPress();
         }
 
@@ -44,7 +44,7 @@
             await Task.Run(() =>
             {
                 while (IsMapperMode)
-                {                    
+                {
                     Joystick.Poll();
                     JoystickState currState = Joystick.GetCurrentState();
                     short buttonId = 0;
