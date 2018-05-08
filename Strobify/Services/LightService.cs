@@ -30,26 +30,27 @@
             return currState.IsPressed(GameController.ControllerButton.DeviceButtonId);
         }
 
-        private async Task StickHandlingLogic(Joystick stick)
+        private async Task StickHandlingLogic()
         {
             await Task.Run(() =>
-            {
+            {                
                 while (!_controllerButtonMapper.IsMapperMode)
                 {
-                    Thread.Sleep(1);
-                    stick.Poll();
+                    Thread.Sleep(50);
+                    Joystick.Poll();
                     if (IsButtonPressed())
-                    {
-                        Thread.Sleep(350);
+                    {                       
+                        Thread.Sleep(450);
+                        Joystick.Poll();
                         if (!IsButtonPressed())
                         {
-                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
+                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);                            
                             continue;
                         }
                         for (short i = 0; i < Repeats; i++)
                         {
                             DoubleControllerPress();
-                        }                   
+                        }
                     }
                 }
             }).ConfigureAwait(false);
@@ -77,7 +78,7 @@
             Joystick = new Joystick(dinput, GameController.DeviceGuid);
             Joystick.Properties.BufferSize = 128;
             Joystick.Acquire();
-            await StickHandlingLogic(Joystick);
+            await StickHandlingLogic();
         }
     }
 }
