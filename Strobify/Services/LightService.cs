@@ -33,18 +33,18 @@
         private async Task StickHandlingLogic()
         {
             await Task.Run(() =>
-            {                
+            {
                 while (!_controllerButtonMapper.IsMapperMode)
                 {
                     Thread.Sleep(50);
                     Joystick.Poll();
                     if (IsButtonPressed())
-                    {                       
-                        Thread.Sleep(450);
+                    {
+                        Thread.Sleep(150);
                         Joystick.Poll();
                         if (!IsButtonPressed())
                         {
-                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);                            
+                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
                             continue;
                         }
                         for (short i = 0; i < Repeats; i++)
@@ -65,10 +65,11 @@
         private void SimulateKeyPress(VirtualKeyCode virtualKeyCode)
         {
             var inputSimulator = new InputSimulator();
-            inputSimulator.Keyboard.KeyDown(virtualKeyCode);
-            Thread.Sleep(Delay / 4);
-            inputSimulator.Keyboard.KeyUp(virtualKeyCode);
-            Thread.Sleep(Delay / 4);
+            inputSimulator.Keyboard
+                .KeyDown(virtualKeyCode)
+                .Sleep(Delay / 4)
+                .KeyUp(virtualKeyCode)
+                .Sleep(Delay / 4);
         }
 
         public async void SimulateLightFlashes()
