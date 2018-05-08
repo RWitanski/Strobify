@@ -57,13 +57,20 @@
             var cfgFullFileName = Path.Combine(_cfgFolderPath, _cfgFolderName, _cfgFileName);
             if (File.Exists(cfgFullFileName))
             {
-                XDocument document = XDocument.Load(cfgFullFileName);
-                Configuration.DeviceGuid = Guid.Parse(document.Root.Element("Controller").Attribute("Guid").Value);
-                Configuration.Delay = Convert.ToInt16(document.Root.Element("Time").Attribute("delay").Value);
-                Configuration.Repeats = Convert.ToInt16(document.Root.Element("Time").Attribute("repeats").Value);
-                Configuration.ControllerBtn = document.Root.Element("Mappings").Attribute("controllerBtn").Value;
-                Configuration.KeyboardBtn = document.Root.Element("Mappings").Attribute("keyboardBtn").Value;
-
+                try
+                {
+                    XDocument document = XDocument.Load(cfgFullFileName);
+                    Configuration.DeviceGuid = Guid.Parse(document.Root.Element("Controller").Attribute("Guid").Value);
+                    Configuration.Delay = Convert.ToInt16(document.Root.Element("Time").Attribute("delay").Value);
+                    Configuration.Repeats = Convert.ToInt16(document.Root.Element("Time").Attribute("repeats").Value);
+                    Configuration.ControllerBtn = document.Root.Element("Mappings").Attribute("controllerBtn").Value;
+                    Configuration.KeyboardBtn = document.Root.Element("Mappings").Attribute("keyboardBtn").Value;
+                }
+                catch(Exception)
+                {
+                    File.Delete(cfgFullFileName);
+                    CreateConfigFile();
+                }
                 return Configuration;
             }
             return new Configuration { Delay = 250, Repeats = 12, ControllerBtn = "7", KeyboardBtn = "L" };
