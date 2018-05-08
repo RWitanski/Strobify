@@ -130,9 +130,7 @@
         {
             this.ControllerButtonText = buttonChangedMessage.WheelButtonId.ToString();
             this.IsControllerButtonEnabled = buttonChangedMessage.IsButtonSet;
-        }
-
-        
+        }        
 
         private void AssignConfiguration()
         {

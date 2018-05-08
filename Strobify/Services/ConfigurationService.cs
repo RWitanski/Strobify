@@ -14,6 +14,11 @@
 
         public Configuration Configuration { get; set; }
 
+        public ConfigurationService()
+        {
+            Configuration = new Configuration();
+        }
+
         private void CreateAppFolder()
         {
             var cfgFullFolderName = Path.Combine(_cfgFolderPath, _cfgFolderName);
@@ -50,8 +55,6 @@
             var cfgFullFileName = Path.Combine(_cfgFolderPath, _cfgFolderName, _cfgFileName);
             if (File.Exists(cfgFullFileName))
             {
-                Configuration = new Configuration();
-
                 XDocument document = XDocument.Load(cfgFullFileName);
                 Configuration.Delay = Convert.ToInt16(document.Root.Element("Time").Attribute("delay").Value);
                 Configuration.Repeats = Convert.ToInt16(document.Root.Element("Time").Attribute("repeats").Value);

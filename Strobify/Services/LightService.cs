@@ -39,15 +39,20 @@
                     stick.Poll();
                     if (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
                     {
+                        Thread.Sleep(250);
+                        if (!IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
+                        {
+                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
+                        }
                         for (short i = 0; i < Repeats; i++)
                         {
                             DoubleControllerPress();
                         }
-                    }
-                    while (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
-                    {
-                        DoubleControllerPress();
-                    }
+                        while (IsButtonPressed(stick, GameController.ControllerButton.DeviceButtonId))
+                        {
+                            DoubleControllerPress();
+                        }
+                    }                    
                     Thread.Sleep(50);
                 }
             }).ConfigureAwait(false);
