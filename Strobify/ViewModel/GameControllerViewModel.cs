@@ -56,7 +56,14 @@
         public GameController SelectedDevice
         {
             get { return _selectedDevice; }
-            set { Set(ref _selectedDevice, value); }
+            set
+            {
+                Set(ref _selectedDevice, value);
+                if (_selectedDevice != null)
+                {
+                    _configurationService.Configuration.DeviceGuid = _selectedDevice.DeviceGuid;
+                }
+            }
         }
 
         public bool IsControllerButtonEnabled
@@ -130,7 +137,7 @@
         {
             this.ControllerButtonText = buttonChangedMessage.WheelButtonId.ToString();
             this.IsControllerButtonEnabled = buttonChangedMessage.IsButtonSet;
-        }        
+        }
 
         private void AssignConfiguration()
         {
@@ -162,7 +169,10 @@
             {
                 GameControllers.Add(device);
             }
-            SelectedDevice = GameControllers.FirstOrDefault();
+            SelectedDevice = GameControllers.Any(g => g.DeviceGuid == Configuration.DeviceGuid) ?
+                GameControllers.FirstOrDefault(g => g.DeviceGuid == Configuration.DeviceGuid) :
+                GameControllers.FirstOrDefault();
+
             IsControllerButtonEnabled = GameControllers.Any();
             StartLightService(null);
         }

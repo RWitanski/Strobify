@@ -17,12 +17,12 @@
         public short Repeats { get; set; }
 
         public GameController GameController { get; set; }
-        protected Joystick Joystick { get; private set; }        
+        protected Joystick Joystick { get; private set; }
 
         public LightService(IControllerButtonMapper controllerButtonMapper)
         {
             this._controllerButtonMapper = controllerButtonMapper;
-        }        
+        }
 
         private bool IsButtonPressed()
         {
@@ -74,7 +74,6 @@
 
         public async void SimulateLightFlashes()
         {
-
             var dinput = new DirectInput();
             Joystick = new Joystick(dinput, GameController.DeviceGuid);
             Joystick.Properties.BufferSize = 128;

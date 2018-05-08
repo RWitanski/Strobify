@@ -32,6 +32,8 @@
         {
             XDocument document = new XDocument(
                 new XElement("Configuration",
+                    new XElement("Controller",
+                        new XAttribute("Guid", Configuration.DeviceGuid)),
                     new XElement("Time",
                         new XAttribute("delay", Configuration.Delay.ToString()),
                         new XAttribute("repeats", Configuration.Repeats.ToString())),
@@ -56,6 +58,7 @@
             if (File.Exists(cfgFullFileName))
             {
                 XDocument document = XDocument.Load(cfgFullFileName);
+                Configuration.DeviceGuid = Guid.Parse(document.Root.Element("Controller").Attribute("Guid").Value);
                 Configuration.Delay = Convert.ToInt16(document.Root.Element("Time").Attribute("delay").Value);
                 Configuration.Repeats = Convert.ToInt16(document.Root.Element("Time").Attribute("repeats").Value);
                 Configuration.ControllerBtn = document.Root.Element("Mappings").Attribute("controllerBtn").Value;
