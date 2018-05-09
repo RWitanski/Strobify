@@ -7,12 +7,18 @@
     using Strobify.Model;
     using Strobify.Services.Interfaces;
     using Strobify.Strategies.Interfaces;
+    using System;
     using System.Collections.ObjectModel;
     using System.Linq;
 
     public class GameControllerViewModel : ViewModelBase
     {
-        public ObservableCollection<GameController> GameControllers { get; set; } = new ObservableCollection<GameController>();
+        public ObservableCollection<GameController> GameControllers { get; private set; } = new ObservableCollection<GameController>();
+        public ObservableCollection<Mode> Modes { get; } = new ObservableCollection<Mode>{
+            new Mode{ Name = "Race car" },
+            new Mode { Name = "Safety car" }
+        };
+
         private readonly IDeviceService _deviceService;
         private readonly ILightService _lightService;
         private readonly IButtonMapperStrategy _buttonMapperStrategy;
@@ -20,11 +26,13 @@
         private readonly IConfigurationService _configurationService;
 
         private GameController _selectedDevice;
+        private Mode _selectedMode;// = new Mode { Name = "Racing" };
         private string _controllerButtonText;
         private string _keyboardButtonText;
         private short _delay;
         private short _repeats;
         private bool _isControllerButtonEnabled = true;
+        private string _modeListVisibility = "Hidden";
         private Configuration _configuration;
 
         public GameControllerViewModel(IDeviceService deviceService, ILightService lightService, IButtonMapperStrategy buttonMapperStrategy, IMessenger messenger, IConfigurationService configurationService)
@@ -64,6 +72,15 @@
                     _configurationService.Configuration.DeviceGuid = _selectedDevice.DeviceGuid;
                 }
             }
+        }        
+
+        public Mode SelectedMode
+        {
+            get { return _selectedMode; }
+            set
+            {
+                Set(ref _selectedMode, value);
+            }
         }
 
         public bool IsControllerButtonEnabled
@@ -74,6 +91,12 @@
                 Set(ref _isControllerButtonEnabled, value);
                 RaisePropertyChanged();
             }
+        }
+
+        public string ModeListVisibility
+        {
+            get { return _modeListVisibility; }
+            set { Set(ref _modeListVisibility, value); }
         }
 
         public string ControllerButtonText
@@ -119,10 +142,10 @@
         }
 
         public RelayCommand GetDevicesCommand { get; set; }
-
         public RelayCommand GetButtonIdCommand{ get; set; }
-
         public RelayCommand StartCommand { get; set; }
+        public RelayCommand SwitchModesCommand { get; set; }
+        public RelayCommand ModeSelectedCommand { get; set; }
 
         #endregion
 
@@ -131,6 +154,13 @@
             this.GetDevicesCommand = new RelayCommand(InitGameControllerList);
             this.GetButtonIdCommand = new RelayCommand(InitControllerButtonAssign);
             this.StartCommand = new RelayCommand(StartLightService);
+            this.SwitchModesCommand = new RelayCommand(SwitchModeListVisibility);
+            this.ModeSelectedCommand = new RelayCommand(HideModeMenu);
+        }
+
+        private void HideModeMenu(object param)
+        {
+            ModeListVisibility = "Hidden";
         }
 
         private void HandleButtonMessage(ButtonChangedMessage buttonChangedMessage)
@@ -145,6 +175,12 @@
             Repeats = _configuration.Repeats;
             ControllerButtonText = _configuration.ControllerBtn;
             KeyboardButtonText = _configuration.KeyboardBtn;
+        }
+
+        private void SwitchModeListVisibility(object param)
+        {
+            ModeListVisibility = ModeListVisibility.Equals("Visible", StringComparison.OrdinalIgnoreCase) ? "Hidden" : "Visible";
+            //SelectedMode = Modes.FirstOrDefault(); // Possible - if nothing from stored configuration
         }
 
         private void InitControllerButtonAssign(object param)

@@ -18,11 +18,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>               
+        </ResourceDictionary>
     </Window.Resources>
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <Button>
+            <Button Command="{Binding SwitchModesCommand}">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Width="20"
                    Height="20"
@@ -40,6 +40,10 @@
     </controls:MetroWindow.RightWindowCommands>
 
     <Grid HorizontalAlignment="Left" Width="334">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="305*"/>
+            <ColumnDefinition Width="29*"/>
+        </Grid.ColumnDefinitions>
         <ComboBox
             ItemsSource="{Binding GameControllers}"
             DisplayMemberPath="Name" 
@@ -53,23 +57,35 @@
             </i:Interaction.Triggers>
         </ComboBox>
         <Button Command="{Binding GetDevicesCommand}" 
-                HorizontalAlignment="Left" Margin="303,10,0,0" VerticalAlignment="Top" Width="28"  Height="26">
+                HorizontalAlignment="Left" Margin="303,10,0,0" VerticalAlignment="Top" Width="28"  Height="26" Grid.ColumnSpan="2">
             <StackPanel>
                 <Image Source="/Strobify;component/Resources/Images/refresh_white_36x36.png" Height="14" Width="16"/>
             </StackPanel>
         </Button>
         <Button Content="{Binding ControllerButtonText}" 
-                ContentStringFormat="Wheel key {0}"
-                IsEnabled="{Binding IsControllerButtonEnabled}"
-                Command="{Binding GetButtonIdCommand}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="75"/>
+            ContentStringFormat="Wheel key {0}"
+            IsEnabled="{Binding IsControllerButtonEnabled}"
+            Command="{Binding GetButtonIdCommand}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="75"/>
         <TextBox x:Name="KeyboardButtonTxtBox" Text="{Binding KeyboardButtonText}" 
-                 PreviewTextInput="StringValidation"
-                 CharacterCasing="Upper"
-                 HorizontalContentAlignment="Center" MaxLines="1" MaxLength="1" 
-                 HorizontalAlignment="Left" Height="23" Margin="223,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" Padding="0"/>
+            PreviewTextInput="StringValidation"
+            CharacterCasing="Upper"
+            HorizontalContentAlignment="Center" MaxLines="1" MaxLength="1" 
+            HorizontalAlignment="Left" Height="23" Margin="223,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" Padding="0"/>
         <Label Content="Delay (ms)" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="70"/>
-        <controls:NumericUpDown Value="{Binding Delay}" Minimum="100" Maximum="500" Interval="1" StringFormat="N0" Margin="85,75,174,19" />
+        <controls:NumericUpDown Value="{Binding Delay}" Minimum="100" Maximum="500" Interval="1" StringFormat="N0" Margin="85,75,144.893,19" />
         <Label Content="Repeats" HorizontalAlignment="Left" Margin="165,76,0,0" VerticalAlignment="Top" Width="55"/>
-        <controls:NumericUpDown Value="{Binding Repeats}" Minimum="2" Maximum="30" Interval="2" StringFormat="N0" Margin="223,74,36,20" />
+        <controls:NumericUpDown Value="{Binding Repeats}" Minimum="2" Maximum="30" Interval="2" StringFormat="N0" Margin="223,74,6.893,20" />
+        <ComboBox HorizontalAlignment="Left" Height="26" Margin="180,-28,0,0" VerticalAlignment="Top" Width="90"
+            Visibility="{Binding ModeListVisibility}"
+            ItemsSource="{Binding Modes}"
+            SelectedItem="{Binding SelectedMode}"
+            SelectedIndex="0"
+            DisplayMemberPath="Name" Opacity="0.9">            
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ModeSelectedCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
     </Grid>
 </controls:MetroWindow>
