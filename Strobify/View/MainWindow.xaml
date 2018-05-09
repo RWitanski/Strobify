@@ -22,7 +22,7 @@
     </Window.Resources>
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <Button Command="{Binding SwitchModesCommand}">
+            <Button Command="{Binding ShowModesCommand}">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Width="20"
                    Height="20"
@@ -52,7 +52,7 @@
             HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding StartCommand}"/>
+                    <i:InvokeCommandAction Command="{Binding ControllerChangeCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ComboBox>

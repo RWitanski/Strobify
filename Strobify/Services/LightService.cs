@@ -18,6 +18,7 @@
 
         public GameController GameController { get; set; }
         protected Joystick Joystick { get; private set; }
+        public ModeType CurrentMode { get; set; }
 
         public LightService(IControllerButtonMapper controllerButtonMapper)
         {
@@ -30,30 +31,45 @@
             return currState.IsPressed(GameController.ControllerButton.DeviceButtonId);
         }
 
-        private async Task StickHandlingLogic()
+        private void StickHandlingLogic()
         {
-            await Task.Run(() =>
+            while (!_controllerButtonMapper.IsMapperMode)
             {
-                while (!_controllerButtonMapper.IsMapperMode)
+                Thread.Sleep(50);
+                Joystick.Poll();
+                if (IsButtonPressed())
                 {
-                    Thread.Sleep(50);
+                    Thread.Sleep(150);
                     Joystick.Poll();
-                    if (IsButtonPressed())
+                    if (!IsButtonPressed())
                     {
-                        Thread.Sleep(150);
-                        Joystick.Poll();
-                        if (!IsButtonPressed())
-                        {
-                            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
-                            continue;
-                        }
-                        for (short i = 0; i < Repeats; i++)
-                        {
-                            DoubleControllerPress();
-                        }
+                        SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
+                        continue;
+                    }
+                    switch (CurrentMode)
+                    {
+                        case ModeType.RaceCar:
+                            {
+                                for (short i = 0; i < Repeats; i++)
+                                {
+                                    DoubleControllerPress();
+                                }
+                                break;
+                            }
+                        case ModeType.SafetyCar:
+                            {
+                                Thread.Sleep(350);
+                                while (!IsButtonPressed())
+                                {
+                                    Thread.Sleep(5);
+                                    Joystick.Poll();
+                                    DoubleControllerPress();
+                                }
+                                break;
+                            }
                     }
                 }
-            }).ConfigureAwait(false);
+            }
         }
 
         private void DoubleControllerPress()
@@ -72,13 +88,16 @@
                 .Sleep(Delay / 4);
         }
 
-        public async void SimulateLightFlashes()
+        public async Task SimulateLightFlashes()
         {
-            var dinput = new DirectInput();
-            Joystick = new Joystick(dinput, GameController.DeviceGuid);
-            Joystick.Properties.BufferSize = 128;
-            Joystick.Acquire();
-            await StickHandlingLogic();
+            await Task.Run(() =>
+            {
+                var dinput = new DirectInput();
+                Joystick = new Joystick(dinput, GameController.DeviceGuid);
+                Joystick.Properties.BufferSize = 128;
+                Joystick.Acquire();
+                StickHandlingLogic();
+            });
         }
     }
 }

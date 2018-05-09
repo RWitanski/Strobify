@@ -90,6 +90,7 @@
     <Compile Include="Model\ControllerButton.cs" />
     <Compile Include="Model\GameController.cs" />
     <Compile Include="Model\Mode.cs" />
+    <Compile Include="Model\ModeType.cs" />
     <Compile Include="Repositories\DevicesRepository.cs" />
     <Compile Include="Repositories\Interfaces\IDeviceRepository.cs" />
     <Compile Include="Services\ConfigurationService.cs" />

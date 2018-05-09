@@ -15,8 +15,8 @@
     {
         public ObservableCollection<GameController> GameControllers { get; private set; } = new ObservableCollection<GameController>();
         public ObservableCollection<Mode> Modes { get; } = new ObservableCollection<Mode>{
-            new Mode{ Name = "Race car" },
-            new Mode { Name = "Safety car" }
+            new Mode{ Name = "Race car", ModeType =  ModeType.RaceCar },
+            new Mode { Name = "Safety car", ModeType = ModeType.SafetyCar }
         };
 
         private readonly IDeviceService _deviceService;
@@ -26,7 +26,7 @@
         private readonly IConfigurationService _configurationService;
 
         private GameController _selectedDevice;
-        private Mode _selectedMode;// = new Mode { Name = "Racing" };
+        private Mode _selectedMode; //= new Mode { Name = "Race car" };
         private string _controllerButtonText;
         private string _keyboardButtonText;
         private short _delay;
@@ -46,7 +46,7 @@
             InitCommands();
             Configuration = configurationService.ReadConfiguration();
             InitGameControllerList(null);
-            StartLightService(null);
+            StartLightService();
         }
 
         #region Properties
@@ -72,7 +72,7 @@
                     _configurationService.Configuration.DeviceGuid = _selectedDevice.DeviceGuid;
                 }
             }
-        }        
+        }
 
         public Mode SelectedMode
         {
@@ -80,6 +80,7 @@
             set
             {
                 Set(ref _selectedMode, value);
+                _lightService.CurrentMode = SelectedMode.ModeType;
             }
         }
 
@@ -143,9 +144,9 @@
 
         public RelayCommand GetDevicesCommand { get; set; }
         public RelayCommand GetButtonIdCommand{ get; set; }
-        public RelayCommand StartCommand { get; set; }
-        public RelayCommand SwitchModesCommand { get; set; }
+        public RelayCommand ControllerChangeCommand { get; set; }
         public RelayCommand ModeSelectedCommand { get; set; }
+        public RelayCommand ShowModesCommand { get; set; }
 
         #endregion
 
@@ -153,14 +154,20 @@
         {
             this.GetDevicesCommand = new RelayCommand(InitGameControllerList);
             this.GetButtonIdCommand = new RelayCommand(InitControllerButtonAssign);
-            this.StartCommand = new RelayCommand(StartLightService);
-            this.SwitchModesCommand = new RelayCommand(SwitchModeListVisibility);
-            this.ModeSelectedCommand = new RelayCommand(HideModeMenu);
+            this.ControllerChangeCommand = new RelayCommand(ChangeController);
+            this.ShowModesCommand = new RelayCommand(SwitchModeListVisibility);
+            this.ModeSelectedCommand = new RelayCommand(ChangeMode);
         }
 
-        private void HideModeMenu(object param)
+        private void ChangeController(object param)
         {
-            ModeListVisibility = "Hidden";
+            _lightService.Repeats = _repeats;
+            _lightService.Delay = _delay;
+            _lightService.GameController = SelectedDevice;
+        }
+        private void ChangeMode(object param)
+        {
+            _lightService.CurrentMode = SelectedMode.ModeType;
         }
 
         private void HandleButtonMessage(ButtonChangedMessage buttonChangedMessage)
@@ -180,7 +187,6 @@
         private void SwitchModeListVisibility(object param)
         {
             ModeListVisibility = ModeListVisibility.Equals("Visible", StringComparison.OrdinalIgnoreCase) ? "Hidden" : "Visible";
-            //SelectedMode = Modes.FirstOrDefault(); // Possible - if nothing from stored configuration
         }
 
         private void InitControllerButtonAssign(object param)
@@ -188,12 +194,10 @@
             _deviceService.AssignButtonsToController(SelectedDevice, KeyboardButtonText);
         }
 
-        private void StartLightService(object param)
+        private void StartLightService()
         {
             if (SelectedDevice != null && IsControllerButtonEnabled)
             {
-                _lightService.Repeats = _repeats;
-                _lightService.Delay = _delay;
                 _deviceService.StartLightService(SelectedDevice, ControllerButtonText, KeyboardButtonText);
             }
         }
@@ -210,7 +214,6 @@
                 GameControllers.FirstOrDefault();
 
             IsControllerButtonEnabled = GameControllers.Any();
-            StartLightService(null);
         }
     }
 }
