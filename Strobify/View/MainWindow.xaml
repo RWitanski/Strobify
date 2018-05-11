@@ -40,7 +40,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Width="20"
                    Height="20"
-                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                   Fill="LawnGreen">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_money}" />
                         </Rectangle.OpacityMask>
