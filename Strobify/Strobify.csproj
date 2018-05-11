@@ -182,11 +182,5 @@
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PayPal.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PayPal.bmp" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
