@@ -26,7 +26,7 @@
         private readonly IConfigurationService _configurationService;
 
         private GameController _selectedDevice;
-        private Mode _selectedMode; //= new Mode { Name = "Race car" };
+        private Mode _selectedMode;
         private string _controllerButtonText;
         private string _keyboardButtonText;
         private short _delay;
@@ -214,6 +214,7 @@
                 GameControllers.FirstOrDefault();
 
             IsControllerButtonEnabled = GameControllers.Any();
+            StartLightService();
         }
     }
 }

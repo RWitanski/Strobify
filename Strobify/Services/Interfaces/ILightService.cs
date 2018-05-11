@@ -5,7 +5,7 @@
 
     public interface ILightService
     {
-        Task SimulateLightFlashes();
+        void SimulateLightFlashes();
         GameController GameController { get; set; }
         short Delay { get; set; }
         short Repeats { get; set; }
