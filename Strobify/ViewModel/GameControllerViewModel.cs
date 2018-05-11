@@ -144,8 +144,8 @@
 
         public RelayCommand GetDevicesCommand { get; set; }
         public RelayCommand GetButtonIdCommand{ get; set; }
-        public RelayCommand ControllerChangeCommand { get; set; }
         public RelayCommand ModeSelectedCommand { get; set; }
+        public RelayCommand DonateCommand { get; private set; }
         public RelayCommand ShowModesCommand { get; set; }
 
         #endregion
@@ -154,17 +154,17 @@
         {
             this.GetDevicesCommand = new RelayCommand(InitGameControllerList);
             this.GetButtonIdCommand = new RelayCommand(InitControllerButtonAssign);
-            //this.ControllerChangeCommand = new RelayCommand(ChangeController);
             this.ShowModesCommand = new RelayCommand(SwitchModeListVisibility);
             this.ModeSelectedCommand = new RelayCommand(ChangeMode);
+            this.DonateCommand = new RelayCommand(LaunchBrowserWithPayPal);
         }
 
-        private void ChangeController(object param)
+        private void LaunchBrowserWithPayPal(object obj)
         {
-            //_lightService.Repeats = _repeats;
-            //_lightService.Delay = _delay;
-            //_lightService.GameController = SelectedDevice;
+            const string payPalUrl = "https://www.paypal.me/RWitanski";
+            System.Diagnostics.Process.Start(payPalUrl);
         }
+
         private void ChangeMode(object param)
         {
             _lightService.CurrentMode = SelectedMode.ModeType;

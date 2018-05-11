@@ -36,6 +36,20 @@
                    Text="" />
                 </StackPanel>
             </Button>
+            <Button Command="{Binding DonateCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20"
+                   Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_money}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0"
+                   VerticalAlignment="Center"
+                   Text="" />
+                </StackPanel>
+            </Button>            
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
 
@@ -50,11 +64,6 @@
             SelectedItem="{Binding SelectedDevice}" 
             IsSynchronizedWithCurrentItem="True"
             HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288">
-            <!--<i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding ControllerChangeCommand}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>-->
         </ComboBox>
         <Button Command="{Binding GetDevicesCommand}" 
                 HorizontalAlignment="Left" Margin="303,10,0,0" VerticalAlignment="Top" Width="28"  Height="26" Grid.ColumnSpan="2">
@@ -75,17 +84,18 @@
         <controls:NumericUpDown Value="{Binding Delay}" Minimum="100" Maximum="500" Interval="1" StringFormat="N0" Margin="85,75,144.893,19" />
         <Label Content="Repeats" HorizontalAlignment="Left" Margin="165,76,0,0" VerticalAlignment="Top" Width="55"/>
         <controls:NumericUpDown Value="{Binding Repeats}" Minimum="2" Maximum="30" Interval="2" StringFormat="N0" Margin="223,74,6.893,20" />
-        <ComboBox HorizontalAlignment="Left" Height="26" Margin="180,-28,0,0" VerticalAlignment="Top" Width="90"
+        <ComboBox HorizontalAlignment="Left" Height="26" Margin="130,-28,0,0" VerticalAlignment="Top" Width="90"
             Visibility="{Binding ModeListVisibility}"
-            ItemsSource="{Binding Modes}"
+            ItemsSource="{Binding Modes}"           
             SelectedItem="{Binding SelectedMode}"
             SelectedIndex="0"
-            DisplayMemberPath="Name" Opacity="0.9">            
+            DisplayMemberPath="Name" Opacity="0.9">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding ModeSelectedCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ComboBox>
+        <Label Content="Label" Grid.Column="1" HorizontalAlignment="Left" Margin="18,30,0,0" VerticalAlignment="Top"/>
     </Grid>
 </controls:MetroWindow>
