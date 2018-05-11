@@ -19,7 +19,7 @@
         public GameController GameController { get; set; }
         protected Joystick Joystick { get; private set; }
         public ModeType CurrentMode { get; set; }
-        private CancellationTokenSource Canceller { get; set; }
+        private Thread GetThread { get; set; }
 
         public LightService(IControllerButtonMapper controllerButtonMapper)
         {
@@ -91,26 +91,24 @@
 
         public void SimulateLightFlashes()
         {
-            Canceller?.Cancel();
+            GetThread?.Abort();
 
             var dinput = new DirectInput();
             Joystick = new Joystick(dinput, GameController.DeviceGuid);
             Joystick.Properties.BufferSize = 128;
             Joystick.Acquire();
-            Canceller = new CancellationTokenSource();
+
             Task.Run(() =>
             {
-                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                GetThread = Thread.CurrentThread;
+                try
                 {
-                    try
-                    {
-                        StickHandlingLogic();
-                    }
-                    catch (ThreadAbortException)
-                    {
-                    }
+                    StickHandlingLogic();
                 }
-            }, Canceller.Token);
+                catch (ThreadAbortException)
+                {
+                }
+            });
         }
     }
 }

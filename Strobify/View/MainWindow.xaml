@@ -64,6 +64,11 @@
             SelectedItem="{Binding SelectedDevice}" 
             IsSynchronizedWithCurrentItem="True"
             HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="288">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding DeviceChangedCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </ComboBox>
         <Button Command="{Binding GetDevicesCommand}" 
                 HorizontalAlignment="Left" Margin="303,10,0,0" VerticalAlignment="Top" Width="28"  Height="26" Grid.ColumnSpan="2">

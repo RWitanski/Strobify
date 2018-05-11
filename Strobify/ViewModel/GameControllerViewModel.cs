@@ -145,6 +145,7 @@
         public RelayCommand GetDevicesCommand { get; set; }
         public RelayCommand GetButtonIdCommand{ get; set; }
         public RelayCommand ModeSelectedCommand { get; set; }
+        public RelayCommand DeviceChangedCommand { get; set; }
         public RelayCommand DonateCommand { get; private set; }
         public RelayCommand ShowModesCommand { get; set; }
 
@@ -155,8 +156,14 @@
             this.GetDevicesCommand = new RelayCommand(InitGameControllerList);
             this.GetButtonIdCommand = new RelayCommand(InitControllerButtonAssign);
             this.ShowModesCommand = new RelayCommand(SwitchModeListVisibility);
+            this.DeviceChangedCommand = new RelayCommand(ChangeDevice);
             this.ModeSelectedCommand = new RelayCommand(ChangeMode);
             this.DonateCommand = new RelayCommand(LaunchBrowserWithPayPal);
+        }
+
+        private void ChangeDevice(object obj)
+        {
+            StartLightService();
         }
 
         private void LaunchBrowserWithPayPal(object obj)
