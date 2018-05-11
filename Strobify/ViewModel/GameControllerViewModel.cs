@@ -154,16 +154,16 @@
         {
             this.GetDevicesCommand = new RelayCommand(InitGameControllerList);
             this.GetButtonIdCommand = new RelayCommand(InitControllerButtonAssign);
-            this.ControllerChangeCommand = new RelayCommand(ChangeController);
+            //this.ControllerChangeCommand = new RelayCommand(ChangeController);
             this.ShowModesCommand = new RelayCommand(SwitchModeListVisibility);
             this.ModeSelectedCommand = new RelayCommand(ChangeMode);
         }
 
         private void ChangeController(object param)
         {
-            _lightService.Repeats = _repeats;
-            _lightService.Delay = _delay;
-            _lightService.GameController = SelectedDevice;
+            //_lightService.Repeats = _repeats;
+            //_lightService.Delay = _delay;
+            //_lightService.GameController = SelectedDevice;
         }
         private void ChangeMode(object param)
         {
