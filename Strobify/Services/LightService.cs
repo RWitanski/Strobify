@@ -12,6 +12,7 @@
     public class LightService : ILightService
     {
         private readonly IControllerButtonMapper _controllerButtonMapper;
+        private volatile bool isButtonPressed = false;
 
         public short Delay { get; set; }
         public short Repeats { get; set; }
@@ -65,6 +66,8 @@
                                     Thread.Sleep(5);
                                     Joystick.Poll();
                                     DoubleControllerPress();
+                                    //DoubleControllerPress();
+                                    //Thread.Sleep(Delay);
                                 }
                                 break;
                             }

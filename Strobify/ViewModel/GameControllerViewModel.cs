@@ -46,7 +46,6 @@
             InitCommands();
             Configuration = configurationService.ReadConfiguration();
             InitGameControllerList(null);
-            StartLightService();
         }
 
         #region Properties
