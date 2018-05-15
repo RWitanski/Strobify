@@ -9,6 +9,27 @@
         {
             switch (buttonKey.ToUpper())
             {
+                case "0":
+                    return VirtualKeyCode.VK_0;
+                case "1":
+                    return VirtualKeyCode.VK_1;
+                case "2":
+                    return VirtualKeyCode.VK_2;
+                case "3":
+                    return VirtualKeyCode.VK_3;
+                case "4":
+                    return VirtualKeyCode.VK_4;
+                case "5":
+                    return VirtualKeyCode.VK_5;
+                case "6":
+                    return VirtualKeyCode.VK_6;
+                case "7":
+                    return VirtualKeyCode.VK_7;
+                case "8":
+                    return VirtualKeyCode.VK_8;
+                case "9":
+                    return VirtualKeyCode.VK_9;
+
                 case "A":
                     return VirtualKeyCode.VK_A;
                 case "B":

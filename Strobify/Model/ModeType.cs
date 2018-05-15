@@ -3,6 +3,7 @@
     public enum ModeType
     {
         RaceCar,
-        SafetyCar
+        SafetyCar, 
+        F1SafetyCar
     }
 }

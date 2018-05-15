@@ -66,8 +66,19 @@
                                     Thread.Sleep(5);
                                     Joystick.Poll();
                                     DoubleControllerPress();
-                                    //DoubleControllerPress();
-                                    //Thread.Sleep(Delay);
+                                }
+                                break;
+                            }
+                        case ModeType.F1SafetyCar:
+                            {
+                                Thread.Sleep(350);
+                                while (!IsButtonPressed())
+                                {
+                                    Thread.Sleep(5);
+                                    Joystick.Poll();
+                                    DoubleControllerPress();
+                                    DoubleControllerPress();
+                                    Thread.Sleep(Delay);
                                 }
                                 break;
                             }

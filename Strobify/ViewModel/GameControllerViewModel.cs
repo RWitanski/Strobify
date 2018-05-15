@@ -16,7 +16,8 @@
         public ObservableCollection<GameController> GameControllers { get; private set; } = new ObservableCollection<GameController>();
         public ObservableCollection<Mode> Modes { get; } = new ObservableCollection<Mode>{
             new Mode{ Name = "Race car", ModeType =  ModeType.RaceCar },
-            new Mode { Name = "Safety car", ModeType = ModeType.SafetyCar }
+            new Mode { Name = "Safety car", ModeType = ModeType.SafetyCar },
+            new Mode { Name = "F1 Safety car", ModeType = ModeType.F1SafetyCar }
         };
 
         private readonly IDeviceService _deviceService;
