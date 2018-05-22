@@ -52,7 +52,7 @@
                 }
                 else
                 {
-                    timer.Change(450, Timeout.Infinite);
+                    timer.Change(250, Timeout.Infinite);
                 }
             }
         }
