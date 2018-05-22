@@ -12,7 +12,7 @@
     public class LightService : ILightService
     {
         private readonly IControllerButtonMapper _controllerButtonMapper;
-        private volatile bool isButtonPressed = false;
+        private volatile bool isButtonPressed;
 
         public short Delay { get; set; }
         public short Repeats { get; set; }
@@ -20,7 +20,9 @@
         public GameController GameController { get; set; }
         protected Joystick Joystick { get; private set; }
         public ModeType CurrentMode { get; set; }
-        private CancellationTokenSource Canceller { get; set; }
+        private CancellationTokenSource ButtonSimulatorCanceller { get; set; }
+        private CancellationTokenSource ButtonListenerCanceller { get; set; }
+        private CancellationTokenSource SpecialModeCanceller { get; set; }
 
         public LightService(IControllerButtonMapper controllerButtonMapper)
         {
@@ -35,61 +37,117 @@
 
         private void StickHandlingLogic()
         {
+            Timer timer = new Timer(ActiveSpecialMode, null, 250, 0);
+
             while (!_controllerButtonMapper.IsMapperMode)
             {
-                Thread.Sleep(50);
-                Joystick.Poll();
-                if (IsButtonPressed())
+                Thread.Sleep(1);
+                if (isButtonPressed)
                 {
-                    Thread.Sleep(150);
-                    Joystick.Poll();
-                    if (!IsButtonPressed())
+                    Thread.Sleep(25);
+                    if (!isButtonPressed)
                     {
-                        SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
-                        continue;
-                    }
-                    switch (CurrentMode)
-                    {
-                        case ModeType.RaceCar:
-                            {
-                                for (short i = 0; i < Repeats; i++)
-                                {
-                                    DoubleControllerPress();
-                                }
-                                break;
-                            }
-                        case ModeType.SafetyCar:
-                            {
-                                Thread.Sleep(350);
-                                while (!IsButtonPressed())
-                                {
-                                    Thread.Sleep(5);
-                                    Joystick.Poll();
-                                    DoubleControllerPress();
-                                }
-                                break;
-                            }
-                        case ModeType.F1SafetyCar:
-                            {
-                                Thread.Sleep(350);
-                                while (!IsButtonPressed())
-                                {
-                                    Thread.Sleep(5);
-                                    Joystick.Poll();
-                                    DoubleControllerPress();
-                                    DoubleControllerPress();
-                                    Thread.Sleep(Delay);
-                                }
-                                break;
-                            }
+                        SingleControllerPress(null);
                     }
                 }
+                else
+                {
+                    timer.Change(450, Timeout.Infinite);
+                }
+            }
+        }
+
+        private void ActiveSpecialMode(object state)
+        {
+            if (SpecialModeCanceller != null)
+            {
+                SpecialModeCanceller.Cancel();
+            }
+            else
+            {
+                SpecialModeCanceller = new CancellationTokenSource();
+
+                Task.Run(() =>
+                {
+                    using (SpecialModeCanceller.Token.Register(Thread.CurrentThread.Abort))
+                    {
+                        try
+                        {
+                            switch (CurrentMode)
+                            {
+                                case ModeType.RaceCar:
+                                    {
+                                        RaceCarFlashing();
+                                        SpecialModeCanceller = null;
+                                        break;
+                                    }
+                                case ModeType.SafetyCar:
+                                    {
+                                        SafetyCarFlashing();
+                                        break;
+                                    }
+                                case ModeType.F1SafetyCar:
+                                    {
+                                        F1LightFlashing();
+                                        break;
+                                    }
+                            }
+                        }
+                        catch (ThreadAbortException)
+                        {
+                            SpecialModeCanceller = null;
+                        }
+                    }
+                }, SpecialModeCanceller.Token);
+            }
+        }
+
+        private void RaceCarFlashing()
+        {
+            for (short i = 0; i < Repeats; i++)
+            {
+                DoubleControllerPress();
+            }
+        }
+
+        private void SafetyCarFlashing()
+        {
+            while (true)
+            {
+                Thread.Sleep(1);
+                DoubleControllerPress();
+            }
+        }
+
+        private void F1LightFlashing()
+        {
+            while (true)
+            {
+                Thread.Sleep(1);
+                DoubleControllerPress();
+                DoubleControllerPress();
+                Thread.Sleep(Delay);
+            }
+        }
+
+        private void ButtonPressListener()
+        {
+            while (true)
+            {
+                Thread.Sleep(1);
+                Joystick.Poll();
+                isButtonPressed = IsButtonPressed();
             }
         }
 
         private void DoubleControllerPress()
         {
-            SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
+            SingleControllerPress(null);
+            SingleControllerPress(null);
+        }
+
+        private void SingleControllerPress(object state)
+        {
             SimulateKeyPress(GameController.ControllerButton.KeyboardKeyCode);
         }
 
@@ -105,16 +163,31 @@
 
         public void SimulateLightFlashes()
         {
-            Canceller?.Cancel();
+            ButtonSimulatorCanceller?.Cancel();
+            ButtonListenerCanceller?.Cancel();
 
-            var dinput = new DirectInput();
-            Joystick = new Joystick(dinput, GameController.DeviceGuid);
+            Joystick = new Joystick(new DirectInput(), GameController.DeviceGuid);
             Joystick.Properties.BufferSize = 128;
             Joystick.Acquire();
-            Canceller = new CancellationTokenSource();
+            ButtonListenerCanceller = new CancellationTokenSource();
             Task.Run(() =>
             {
-                using (Canceller.Token.Register(Thread.CurrentThread.Abort))
+                using (ButtonListenerCanceller.Token.Register(Thread.CurrentThread.Abort))
+                {
+                    try
+                    {
+                        ButtonPressListener();
+                    }
+                    catch (ThreadAbortException)
+                    {
+                    }
+                }
+            }, ButtonListenerCanceller.Token);
+
+            ButtonSimulatorCanceller = new CancellationTokenSource();
+            Task.Run(() =>
+            {
+                using (ButtonSimulatorCanceller.Token.Register(Thread.CurrentThread.Abort))
                 {
                     try
                     {
@@ -124,7 +197,7 @@
                     {
                     }
                 }
-            }, Canceller.Token);
+            }, ButtonSimulatorCanceller.Token);
         }
     }
 }
