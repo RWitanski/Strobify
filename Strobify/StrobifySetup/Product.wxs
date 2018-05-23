@@ -40,7 +40,6 @@
       <Component Id="ApplicationShortcutDesktop" Guid="98D11E0B-1947-4331-BACA-D5D13FA7C1ED">
         <Shortcut Id="ApplicationDesktopShortcut" 
           Name="Strobify"
-          Description="Sim racing helper"
           Target="[INSTALLFOLDER]Strobify.exe" 
           WorkingDirectory="INSTALLFOLDER"
           Icon="m4_dtm_2017_hl.ico"/>
@@ -54,7 +53,6 @@
             <Component Id="ApplicationShortcut" Guid="63CBF8E0-A175-4A3F-A7AE-A3532E236CB3">
                 <Shortcut Id="ApplicationStartMenuShortcut" 
                     Name="Strobify" 
-                    Description="Sim racing helper."
                     Target="[INSTALLFOLDER]Strobify.exe"
                     WorkingDirectory="INSTALLFOLDER"
                     Icon="m4_dtm_2017_hl.ico"/>
