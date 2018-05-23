@@ -37,14 +37,14 @@
 
         private void StickHandlingLogic()
         {
-            Timer timer = new Timer(ActiveSpecialMode, null, 250, 0);
+            Timer specialModeTimer = new Timer(ActivateSpecialMode, null, 350, 0);
 
             while (!_controllerButtonMapper.IsMapperMode)
             {
                 Thread.Sleep(1);
                 if (isButtonPressed)
                 {
-                    Thread.Sleep(25);
+                    Thread.Sleep(50);
                     if (!isButtonPressed)
                     {
                         SingleControllerPress(null);
@@ -52,12 +52,12 @@
                 }
                 else
                 {
-                    timer.Change(250, Timeout.Infinite);
+                    specialModeTimer.Change(350, Timeout.Infinite);
                 }
             }
         }
 
-        private void ActiveSpecialMode(object state)
+        private void ActivateSpecialMode(object state)
         {
             if (SpecialModeCanceller != null)
             {
@@ -81,12 +81,18 @@
                                         SpecialModeCanceller = null;
                                         break;
                                     }
+                                case ModeType.StroboRaceCar:
+                                    {
+                                        StroboRaceCarFlashing();
+                                        SpecialModeCanceller = null;
+                                        break;
+                                    }
                                 case ModeType.SafetyCar:
                                     {
                                         SafetyCarFlashing();
                                         break;
                                     }
-                                case ModeType.F1SafetyCar:
+                                case ModeType.StroboSafetyCar:
                                     {
                                         F1LightFlashing();
                                         break;
@@ -108,13 +114,32 @@
             {
                 DoubleControllerPress();
             }
+            while (isButtonPressed)
+            {
+                DoubleControllerPress();
+            }
+        }
+
+        private void StroboRaceCarFlashing()
+        {
+            for (short i = 0; i < Repeats; i++)
+            {
+                DoubleControllerPress();
+                DoubleControllerPress();
+                Thread.Sleep(Delay);
+            }
+            while (isButtonPressed)
+            {
+                DoubleControllerPress();
+                DoubleControllerPress();
+                Thread.Sleep(Delay);
+            }
         }
 
         private void SafetyCarFlashing()
         {
             while (true)
             {
-                Thread.Sleep(1);
                 DoubleControllerPress();
             }
         }
@@ -123,7 +148,6 @@
         {
             while (true)
             {
-                Thread.Sleep(1);
                 DoubleControllerPress();
                 DoubleControllerPress();
                 Thread.Sleep(Delay);

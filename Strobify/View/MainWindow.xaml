@@ -101,6 +101,5 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ComboBox>
-        <Label Content="Label" Grid.Column="1" HorizontalAlignment="Left" Margin="18,30,0,0" VerticalAlignment="Top"/>
     </Grid>
 </controls:MetroWindow>
